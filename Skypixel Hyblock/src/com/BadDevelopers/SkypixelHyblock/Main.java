@@ -16,11 +16,20 @@ public class Main extends JavaPlugin {
 	
     @Override
     public void onEnable() {
+    	
     	initCommand(new GiveCommand());
-	Bukkit.getPluginManager().registerEvents(new EventManager(), this);
+    	
+    	Bukkit.getPluginManager().registerEvents(new EventManager(), this);
     	Bukkit.getPluginManager().registerEvents(new DropsHandler(), this);
     	
-	Bukkit.getServer().getScheduler().runTaskTimer(this, scoreboard ,0,1*20);
+    	Bukkit.getServer().getScheduler().runTaskTimer(this, scoreboard ,0,1*20);
+    	
+    	Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() { // clear recipes on server start, as on load isnt possible
+			@Override
+			public void run() {
+				Bukkit.clearRecipes();
+			}
+    	});
     }
     
     private void initCommand(com.BadDevelopers.SkypixelHyblock.Command command) {
