@@ -1,11 +1,10 @@
 package com.BadDevelopers.SkypixelHyblock;
 
-public class Currency implements Runnable {
+import java.util.HashMap;
+import java.util.UUID;
 
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		
-	}
-
+public class Currency {
+	
+	HashMap<UUID, Integer> moneyGain = new HashMap<UUID, Integer>();
+	
 }
