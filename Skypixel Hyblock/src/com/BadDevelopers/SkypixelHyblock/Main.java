@@ -7,6 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.BadDevelopers.SkypixelHyblock.Currency.Currency;
 import com.BadDevelopers.SkypixelHyblock.Currency.EventManager;
 import com.BadDevelopers.SkypixelHyblock.Currency.MoneyCommand;
+import com.BadDevelopers.SkypixelHyblock.Items.CustomWeaponsEventManager;
 import com.BadDevelopers.SkypixelHyblock.Items.DropsHandler;
 import com.BadDevelopers.SkypixelHyblock.Items.GiveCommand;
 
