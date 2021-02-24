@@ -1,0 +1,27 @@
+package com.BadDevelopers.SkypixelHyblock;
+
+import org.bukkit.Bukkit;
+import org.bukkit.command.PluginCommand;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import com.BadDevelopers.SkypixelHyblock.Items.DropsHandler;
+import com.BadDevelopers.SkypixelHyblock.Items.GiveCommand;
+
+public class Main extends JavaPlugin {
+	
+	static Currency currency = new Currency();
+	
+    @Override
+    public void onEnable() {
+    	initCommand(new GiveCommand());
+    	Bukkit.getPluginManager().registerEvents(new DropsHandler(), this);
+        Bukkit.getServer().getScheduler().runTaskTimer(this, currency ,0,1*20);
+    }
+    
+    private void initCommand(com.BadDevelopers.SkypixelHyblock.Command command) {
+    	PluginCommand pc = this.getCommand(command.name);
+    	
+    	pc.setExecutor(command);
+    	pc.setTabCompleter(command.completer);
+    }
+}
