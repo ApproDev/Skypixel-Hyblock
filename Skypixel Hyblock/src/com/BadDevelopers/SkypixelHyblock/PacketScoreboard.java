@@ -12,20 +12,22 @@ import net.minecraft.server.v1_16_R3.PlayerConnection;
 
 @Deprecated
 public class PacketScoreboard implements Runnable {
-
-	public PacketScoreboard(Player player, ScoreboardObjective obj) {
-		this.player = player;
-		this.obj = obj;
-	}
 	
 	Player player;
 	ScoreboardObjective obj;
 	String prev;
+	Main main;
+	
+	public PacketScoreboard(Player player, ScoreboardObjective obj, Main main) {
+		this.player = player;
+		this.obj = obj;
+		this.main = main;
+	}
 	
 	@Override
 	public void run() {
 		PlayerConnection pc = ((CraftPlayer) player).getHandle().playerConnection;
-		String out = "Purse: "+Main.currency.moneyGain.get(player.getUniqueId());
+		String out = "Purse: "+main.currency.getPurse(player);
 		pc.sendPacket(createObjectivePacket(1, prev));
 		pc.sendPacket(createObjectivePacket(0, out));
 		prev = out;
