@@ -15,7 +15,7 @@ public class EventManager implements Listener {
 	public void on(BlockBreakEvent e) {
 		
 		Player player = e.getPlayer();
-		Integer moneySource = 100;
+		Long moneySource = 100L;
 		if (Main.currency.moneyGain.get(player.getUniqueId()) == null) {
 			Main.currency.moneyGain.put(player.getUniqueId(), moneySource);
 		}
