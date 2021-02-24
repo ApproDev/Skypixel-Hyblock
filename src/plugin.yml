@@ -1,0 +1,14 @@
+name: SkypixelHyblock
+version: 1.0
+author: BadDevelopers
+main: com.BadDevelopers.SkypixelHyblock.Main
+description: Our own spin on Hypixel Skyblock!
+api-version: 1.16
+
+commands:
+  skygive:
+    description: Gives you a skyblock-registered item!
+    usage: /skygive <playername> <skyblock ID> <quantity>   
+  skycoin:
+    description: Gives you skyblock coins!
+    usage: /skycoin <playername> <action> <quantity>
