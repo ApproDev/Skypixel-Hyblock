@@ -11,4 +11,4 @@ commands:
     usage: /skygive <playername> <skyblock ID> <quantity>   
   skycoin:
     description: Gives you skyblock coins!
-    usage: /skycoin <playname> <action> <quantity>
+    usage: /skycoin <playername> <action> <quantity>

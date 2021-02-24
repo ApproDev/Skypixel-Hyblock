@@ -8,16 +8,19 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import com.BadDevelopers.SkypixelHyblock.Main;
 
-	public class MoneyCommand extends com.BadDevelopers.SkypixelHyblock.Command{
+public class MoneyCommand extends com.BadDevelopers.SkypixelHyblock.Command{
 	
 	public MoneyCommand() {
 		completer = new MoneyTabCompleter();
 		name = "skycoin";
 	}
 
+	Main main = JavaPlugin.getPlugin(Main.class);
+	
 	@Override
 	public boolean onCommand(CommandSender arg0, Command arg1, String arg2, String[] arg3) {		
 		
@@ -29,7 +32,7 @@ import com.BadDevelopers.SkypixelHyblock.Main;
 		
 		if (arg3[1].toLowerCase().equals("get")) {
 			
-			player.sendMessage(player.getName() + " has " + Main.currency.moneyGain.get(player.getUniqueId()) + " coins ");
+			player.sendMessage(player.getName() + " has " + main.currency.getPurse(player) + " coins ");
 			return true;
 		}
 		
@@ -43,15 +46,15 @@ import com.BadDevelopers.SkypixelHyblock.Main;
 		switch (arg3[1].toLowerCase()) {
 				
 			case "set":				
-				Main.currency.moneyGain.put(player.getUniqueId(), quantity);
+				main.currency.setPurse(player, quantity);
 				break;
 				
 			case "add":
-				Main.currency.moneyGain.put(player.getUniqueId(), Main.currency.moneyGain.get(player.getUniqueId()) + quantity);
+				main.currency.setPurse(player, main.currency.getPurse(player) + quantity);
 				break;
 				
 			case "remove":
-				Main.currency.moneyGain.put(player.getUniqueId(), Main.currency.moneyGain.get(player.getUniqueId()) - quantity);
+				main.currency.setPurse(player, main.currency.getPurse(player) - quantity);
 				break;	
 		}
 		

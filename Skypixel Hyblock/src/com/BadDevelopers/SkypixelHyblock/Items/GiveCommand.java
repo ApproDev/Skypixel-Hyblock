@@ -48,26 +48,20 @@ class GiveCompleter implements TabCompleter {
 	public List<String> onTabComplete(CommandSender arg0, Command arg1, String arg2, String[] arg3) {
 		ArrayList<String> tab = new ArrayList<String>();
 		
-		String lastEntry = arg3[arg3.length - 1];
 		switch (arg3.length) {
 		
 		case 1:
-			for (Player p : Bukkit.getOnlinePlayers()) {
-				if (!p.getName().contains(lastEntry)) continue;
-				tab.add(p.getName());
-			}
+			for (Player p : Bukkit.getOnlinePlayers()) tab.add(p.getName());
 			break;
 		case 2:
-			for (Item item : Item.values()) {
-				if (!item.toString().contains(lastEntry)) continue;
-				tab.add(item.toString());
-			}
+			for (Item item : Item.values()) tab.add(item.toString());
 			break;
 		case 3:
 			tab.add("1");
 			break;
 		default:
 			return null;
+			
 		}
 		
 		return tab;
