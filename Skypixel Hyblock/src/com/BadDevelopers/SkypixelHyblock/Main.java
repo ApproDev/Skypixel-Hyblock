@@ -15,6 +15,8 @@ public class Main extends JavaPlugin {
 	public Scoreboard scoreboard;
 	public Currency currency;
 	
+	public static Stats stats = new Stats();
+	
     @Override
     public void onEnable() {
     	
@@ -26,6 +28,7 @@ public class Main extends JavaPlugin {
     	
     	Bukkit.getPluginManager().registerEvents(new EventManager(), this);
     	Bukkit.getPluginManager().registerEvents(new DropsHandler(), this);
+	Bukkit.getPluginManager().registerEvents(new CustomWeaponsEventManager(this), this);
     	
     	Bukkit.getServer().getScheduler().runTaskTimer(this, scoreboard ,0,1*20);
     	
