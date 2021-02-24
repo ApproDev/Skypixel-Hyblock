@@ -8,4 +8,7 @@ api-version: 1.16
 commands:
   skygive:
     description: Gives you a skyblock-registered item!
-    usage: /skygive <playername> <skyblock ID> <quantity>    
+    usage: /skygive <playername> <skyblock ID> <quantity>   
+  skycoin:
+    description: Gives you skyblock coins!
+    usage: /skycoin <playname> <action> <quantity>
