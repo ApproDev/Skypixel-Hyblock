@@ -27,7 +27,7 @@ public interface ItemHolder {
 		IRON_SWORD(Material.IRON_SWORD, "Iron Sword", Category.WEAPONS, true, new oreDic[0]),
 		DIAMOND_SWORD(Material.DIAMOND_SWORD, "Diamond Sword", Category.WEAPONS, true, new oreDic[0]),
 		
-		SPEED_SWORD(Material.IRON_SWORD, "Rogue Sword", Category.WEAPONS, false, new oreDic[0]),
+		SPEED_SWORD(Material.GOLDEN_SWORD, "Rogue Sword", Category.WEAPONS, false, new oreDic[0]),
 		
 		
 		WOOD_PICK(Material.WOODEN_PICKAXE, "Wooden Pickaxe", Category.TOOLS, true, new oreDic[0]),
@@ -68,6 +68,7 @@ public interface ItemHolder {
 			}
 			return null;
 		}
+		
 		
 		public ItemStack getItem(int quantity) {
 			ItemStack is = new ItemStack(mat, quantity);

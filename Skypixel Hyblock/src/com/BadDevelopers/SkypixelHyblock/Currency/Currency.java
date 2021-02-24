@@ -5,6 +5,6 @@ import java.util.UUID;
 
 public class Currency {
 	
-	public HashMap<UUID, Integer> moneyGain = new HashMap<UUID, Integer>();
+	public HashMap<UUID, Long> moneyGain = new HashMap<UUID, Long>();
 	
 }
