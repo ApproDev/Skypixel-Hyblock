@@ -39,7 +39,7 @@ public class DropsHandler implements Listener {
 				
 				Location loc = item.getLocation();
 				
-				loc.getWorld().dropItemNaturally(loc, give);
+				loc.getWorld().dropItemNaturally(loc.add(new Location(loc.getWorld(), -0.5, -0.5, -0.5)), give);
 			}
 			item.remove();
 			
