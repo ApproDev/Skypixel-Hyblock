@@ -4,26 +4,20 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import com.BadDevelopers.SkypixelHyblock.Main;
 
 public class EventManager implements Listener {
 	
-	
+	Main main = JavaPlugin.getPlugin(Main.class);
 	
 	@EventHandler
 	public void on(BlockBreakEvent e) {
 		
 		Player player = e.getPlayer();
-		Long moneySource = 100L;
-		if (Main.currency.moneyGain.get(player.getUniqueId()) == null) {
-			Main.currency.moneyGain.put(player.getUniqueId(), moneySource);
-		}
-		else {
-			
-			Main.currency.moneyGain.put(player.getUniqueId(), Main.currency.moneyGain.get(player.getUniqueId()) + moneySource);
-		}
-		
-	}
-	
+		Long moneySource = (long) 100;
+		Long newValue = main.currency.getPurse(player) + moneySource;
+		main.currency.setPurse(player, newValue);		
+	}	
 }

@@ -11,6 +11,11 @@ import org.bukkit.scoreboard.ScoreboardManager;
 
 public class Scoreboard implements Runnable, Listener {
 
+	Main main;
+	public Scoreboard(Main main) {
+		this.main = main;
+	}
+	
 	@Override
 	public void run() {
 		
@@ -38,7 +43,7 @@ public class Scoreboard implements Runnable, Listener {
 			board = manager.getMainScoreboard();
 			moneySlot = board.getObjective(DisplaySlot.SIDEBAR);
 			
-			Long currentMoney = Main.currency.moneyGain.get(player.getUniqueId());
+			Long currentMoney = main.currency.getPurse(player);
 			
 			if (currentMoney == null) continue;
 			
