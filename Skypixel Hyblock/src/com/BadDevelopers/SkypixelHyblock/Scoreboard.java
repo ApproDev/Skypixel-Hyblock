@@ -28,25 +28,25 @@ public class Scoreboard implements Runnable, Listener {
 		    if (moneySlot == null) {
 		    	Bukkit.broadcastMessage("moneySlot is null");
 		    	moneySlot = board.registerNewObjective("moneySlot", "dummy", ChatColor.YELLOW + "" + ChatColor.BOLD + " HYBLOCK ");
+		    	moneySlot = board.getObjective(DisplaySlot.SIDEBAR);	
 		    }
 		    
 		    moneySlot.setDisplaySlot(DisplaySlot.SIDEBAR); 
 		// MoneySlot updates
 		for (Player player : Bukkit.getOnlinePlayers()){
 			
-			Integer newMoney = Main.currency.moneyGain.get(player.getUniqueId());
-			
 			board = manager.getMainScoreboard();
 			moneySlot = board.getObjective(DisplaySlot.SIDEBAR);
-		    Score moneyNumber = moneySlot.getScore("Purse:");
-		    
-		    Integer currentMoney = moneyNumber.getScore();
-		    currentMoney = newMoney;
-		    	
-		    // MoneySlot changes applied here
-		    if (currentMoney != null) {
-		    	moneyNumber.setScore(currentMoney);
-		    }
+			
+			Long currentMoney = Main.currency.moneyGain.get(player.getUniqueId());
+			
+			if (currentMoney == null) continue;
+			
+			Integer currentMoneyAsInt = currentMoney.intValue();
+			
+			Score moneyNumber = moneySlot.getScore("purse: ");
+			
+	    	moneyNumber.setScore(currentMoneyAsInt);
 		    player.setScoreboard(board);
 		}
 	}
