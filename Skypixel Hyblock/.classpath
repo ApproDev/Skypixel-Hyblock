@@ -11,5 +11,4 @@
 			<attribute name="javadoc_location" value="jar:file:/D:/Users/sean/eclipse-workspace/server%20files/spigot-1.16.4-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="output" path="bin"/>
 </classpath>
