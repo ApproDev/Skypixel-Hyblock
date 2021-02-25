@@ -71,16 +71,22 @@ class MoneyTabCompleter implements TabCompleter {
 	public List<String> onTabComplete(CommandSender arg0, Command arg1, String arg2, String[] arg3) {
 		ArrayList<String> tab = new ArrayList<String>();
 		
+		String lastEntry = arg3[arg3.length - 1].toLowerCase();
+		
 		switch (arg3.length) {
 		
 			case 1:
-				for (Player p : Bukkit.getOnlinePlayers()) tab.add(p.getName());
+				for (Player p : Bukkit.getOnlinePlayers()) {
+					if (!p.getName().toLowerCase().contains(lastEntry.toLowerCase())) continue;
+					tab.add(p.getName());
+				}
 				break;
 			case 2:
-				tab.add("get");
-				tab.add("set");
-				tab.add("add");
-				tab.add("remove");
+				String[] options = new String[] {"get", "set", "add", "remove"};
+				
+				for (String choice : options) {
+					if (choice.toLowerCase().contains(lastEntry)) tab.add(choice);
+				}
 				break;
 			case 3:
 				tab.add("1");
