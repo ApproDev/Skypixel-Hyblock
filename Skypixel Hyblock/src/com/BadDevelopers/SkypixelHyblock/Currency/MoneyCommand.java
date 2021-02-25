@@ -30,9 +30,11 @@ public class MoneyCommand extends com.BadDevelopers.SkypixelHyblock.Command{
 			
 		Player player = (Player) arg0;
 		
+		Player targetPlayer = Bukkit.getPlayer(arg3[0]);
+		
 		if (arg3[1].toLowerCase().equals("get")) {
 			
-			player.sendMessage(player.getName() + " has " + main.currency.getPurse(player) + " coins ");
+			player.sendMessage(targetPlayer.getName() + " has " + main.currency.getPurse(targetPlayer) + " coins ");
 			return true;
 		}
 		
