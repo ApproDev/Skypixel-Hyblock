@@ -1,12 +1,15 @@
 package com.BadDevelopers.SkypixelHyblock;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.BadDevelopers.SkypixelHyblock.Currency.Currency;
 import com.BadDevelopers.SkypixelHyblock.Currency.EventManager;
 import com.BadDevelopers.SkypixelHyblock.Currency.MoneyCommand;
+import com.BadDevelopers.SkypixelHyblock.Items.ArmourHandler;
 import com.BadDevelopers.SkypixelHyblock.Items.CustomWeaponsEventManager;
 import com.BadDevelopers.SkypixelHyblock.Items.DropsHandler;
 import com.BadDevelopers.SkypixelHyblock.Items.GiveCommand;
@@ -16,20 +19,31 @@ public class Main extends JavaPlugin {
 	public Scoreboard scoreboard;
 	public Currency currency;
 	
-	public static Stats stats = new Stats();
+	public static Stats stats;
+	
+	public static String prefix = ChatColor.AQUA+"["+ChatColor.GOLD+"Hyblock"+ChatColor.AQUA+"] ";
 	
     @Override
     public void onEnable() {
     	
     	scoreboard = new Scoreboard(this);
     	currency = new Currency(this);
+    	stats = new Stats();
     	
     	initCommand(new GiveCommand());
     	initCommand(new MoneyCommand());
     	
-    	Bukkit.getPluginManager().registerEvents(new EventManager(), this);
-    	Bukkit.getPluginManager().registerEvents(new DropsHandler(), this);
-	Bukkit.getPluginManager().registerEvents(new CustomWeaponsEventManager(this), this);
+    	
+    	PluginManager pm = Bukkit.getPluginManager();
+    	pm.registerEvents(new EventManager(), this);
+    	pm.registerEvents(scoreboard, this);
+    	pm.registerEvents(new DropsHandler(), this);
+    	pm.registerEvents(new CustomWeaponsEventManager(this), this);
+    	
+    	
+    	Bukkit.getServer().getScheduler().runTaskTimer(this, stats, 1, 1);
+    	
+    	Bukkit.getServer().getScheduler().runTaskTimer(this, new ArmourHandler(this), 1, 1);
     	
     	Bukkit.getServer().getScheduler().runTaskTimer(this, scoreboard ,0,1*20);
     	
