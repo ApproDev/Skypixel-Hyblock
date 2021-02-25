@@ -48,15 +48,15 @@ public class MoneyCommand extends com.BadDevelopers.SkypixelHyblock.Command{
 		switch (arg3[1].toLowerCase()) {
 				
 			case "set":				
-				main.currency.setPurse(player, quantity);
+				main.currency.setPurse(targetPlayer, quantity);
 				break;
 				
 			case "add":
-				main.currency.setPurse(player, main.currency.getPurse(player) + quantity);
+				main.currency.setPurse(targetPlayer, main.currency.getPurse(targetPlayer) + quantity);
 				break;
 				
 			case "remove":
-				main.currency.setPurse(player, main.currency.getPurse(player) - quantity);
+				main.currency.setPurse(targetPlayer, main.currency.getPurse(targetPlayer) - quantity);
 				break;	
 		}
 		
@@ -89,7 +89,7 @@ class MoneyTabCompleter implements TabCompleter {
 				}
 				break;
 			case 3:
-				tab.add("1");
+				if (!arg3[1].equals("get")) tab.add("1");
 				break;
 			default:
 				return null;
