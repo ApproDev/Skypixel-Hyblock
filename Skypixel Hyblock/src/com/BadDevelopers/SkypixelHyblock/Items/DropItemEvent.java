@@ -21,13 +21,12 @@ public class DropItemEvent extends Event implements Cancellable {
 	
 	@Override
 	public boolean isCancelled() {
-		// TODO Auto-generated method stub
 		return origin.isCancelled();
 	}
 
 	@Override
 	public void setCancelled(boolean cancel) {
-		origin.setCancelled(cancel);;
+		origin.setCancelled(cancel);
 		
 	}
 

@@ -53,13 +53,13 @@ class GiveCompleter implements TabCompleter {
 		
 		case 1:
 			for (Player p : Bukkit.getOnlinePlayers()) {
-				if (!p.getName().contains(lastEntry)) continue;
+				if (!p.getName().toLowerCase().contains(lastEntry.toLowerCase())) continue;
 				tab.add(p.getName());
 			}
 			break;
 		case 2:
 			for (Item item : Item.values()) {
-				if (!item.toString().contains(lastEntry)) continue;
+				if (!item.toString().toLowerCase().contains(lastEntry.toLowerCase())) continue;
 				tab.add(item.toString());
 			}
 			break;

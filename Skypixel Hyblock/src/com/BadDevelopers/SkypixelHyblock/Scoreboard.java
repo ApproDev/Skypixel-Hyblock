@@ -3,7 +3,9 @@ package com.BadDevelopers.SkypixelHyblock;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
@@ -12,6 +14,7 @@ import org.bukkit.scoreboard.ScoreboardManager;
 public class Scoreboard implements Runnable, Listener {
 
 	Main main;
+	ScoreboardManager manager = Bukkit.getScoreboardManager();
 	public Scoreboard(Main main) {
 		this.main = main;
 	}
@@ -24,11 +27,19 @@ public class Scoreboard implements Runnable, Listener {
 		
 	}
 	
-	public void ScoreboardReload() {
-		
-		ScoreboardManager manager = Bukkit.getScoreboardManager();
-		org.bukkit.scoreboard.Scoreboard board = manager.getMainScoreboard();	
-		Objective moneySlot = board.getObjective("moneySlot");
+	@EventHandler
+	public void onPlayerJoin(PlayerJoinEvent event) {
+		event.getPlayer().setScoreboard(manager.getNewScoreboard());
+	}
+	
+	public void ScoreboardReload() {		
+	
+		// MoneySlot updates
+		for (Player player : Bukkit.getOnlinePlayers()){
+			
+			org.bukkit.scoreboard.Scoreboard board = player.getScoreboard();
+			
+			Objective moneySlot = board.getObjective("moneySlot");
 			// MoneySlot objective Init
 		    if (moneySlot == null) {
 		    	Bukkit.broadcastMessage("moneySlot is null");
@@ -37,10 +48,7 @@ public class Scoreboard implements Runnable, Listener {
 		    }
 		    
 		    moneySlot.setDisplaySlot(DisplaySlot.SIDEBAR); 
-		// MoneySlot updates
-		for (Player player : Bukkit.getOnlinePlayers()){
 			
-			board = manager.getMainScoreboard();
 			moneySlot = board.getObjective(DisplaySlot.SIDEBAR);
 			
 			Long currentMoney = main.currency.getPurse(player);

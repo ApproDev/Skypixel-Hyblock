@@ -33,7 +33,7 @@ public class CustomWeaponsEventManager implements Listener {
 		
 		switch(item) {
 		case SPEED_SWORD:
-			Main.stats.addStat(player, 20, Stat.Speed, 30000);
+			if (!Main.stats.isReasonPresent(player, Item.SPEED_SWORD.name)) Main.stats.addStat(player, 20, Stat.Speed, 30000L, Item.SPEED_SWORD.name, false);
 			break;
 		
 		default:
