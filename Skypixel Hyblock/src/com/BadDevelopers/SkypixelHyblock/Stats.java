@@ -32,7 +32,7 @@ public class Stats implements Runnable {
 		Strength(new NamespacedKey(main, "Strength"), 50, Attribute.GENERIC_ATTACK_DAMAGE),
 		Crit_Chance(new NamespacedKey(main, "Crit_Chance"), 1),
 		Speed(new NamespacedKey(main, "Speed"), 1000, Attribute.GENERIC_MOVEMENT_SPEED),
-		ATTACK_SPEED(new NamespacedKey(main, "Attack_Speed"), 100, Attribute.GENERIC_ATTACK_SPEED),
+		Attack_Speed(new NamespacedKey(main, "Attack_Speed"), 100, Attribute.GENERIC_ATTACK_SPEED),
 		Intellegence(new NamespacedKey(main, "Intellegence"), 1),
 		
 		NULL(null, Integer.MAX_VALUE);
@@ -57,7 +57,7 @@ public class Stats implements Runnable {
 				return 20;
 			case Defence:
 				return 0;
-			case ATTACK_SPEED:
+			case Attack_Speed:
 				return 4;
 			case Speed:
 				return 0.1; //0.11500000208
@@ -123,6 +123,17 @@ public class Stats implements Runnable {
 		Long id = lastID + 1L;
 		boosts.add(new statBoost(amount, expires, id, stat, player, booster, isPassive));
 		setStat(player, getStat(player, stat) + amount, stat);
+		lastID = id;
+		//player.sendMessage(stat.toString() + "" + amount);
+		return id;
+	}
+	
+	public Long addStatMultiple(Player player, int amount, Stat[] stats, Long expires, String booster, boolean isPassive) {
+		Long id = lastID + 1L;
+		for (Stat stat : stats) {
+			boosts.add(new statBoost(amount, expires, id, stat, player, booster, isPassive));
+			setStat(player, getStat(player, stat) + amount, stat);
+		}
 		lastID = id;
 		//player.sendMessage(stat.toString() + "" + amount);
 		return id;
