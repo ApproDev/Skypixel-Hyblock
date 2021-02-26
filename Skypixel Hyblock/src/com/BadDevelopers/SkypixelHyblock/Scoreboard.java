@@ -42,9 +42,7 @@ public class Scoreboard implements Runnable, Listener {
 			Objective moneySlot = board.getObjective("moneySlot");
 			// MoneySlot objective Init
 		    if (moneySlot == null) {
-		    	Bukkit.broadcastMessage("moneySlot is null");
-		    	moneySlot = board.registerNewObjective("moneySlot", "dummy", ChatColor.YELLOW + "" + ChatColor.BOLD + " HYBLOCK ");
-		    	moneySlot = board.getObjective(DisplaySlot.SIDEBAR);	
+		    	moneySlot = board.registerNewObjective("moneySlot", "dummy", ChatColor.YELLOW + "" + ChatColor.BOLD + " HYBLOCK ");	
 		    }
 		    
 		    moneySlot.setDisplaySlot(DisplaySlot.SIDEBAR); 

@@ -18,6 +18,7 @@ import com.BadDevelopers.SkypixelHyblock.Items.ArmourHandler;
 import com.BadDevelopers.SkypixelHyblock.Items.CustomWeaponsEventManager;
 import com.BadDevelopers.SkypixelHyblock.Items.DropsHandler;
 import com.BadDevelopers.SkypixelHyblock.Items.GiveCommand;
+import com.BadDevelopers.SkypixelHyblock.UI.UIEventManager;
 
 public class Main extends JavaPlugin {
 	
@@ -46,6 +47,7 @@ public class Main extends JavaPlugin {
     	pm.registerEvents(scoreboard, this);
     	pm.registerEvents(new DropsHandler(), this);
     	pm.registerEvents(new CustomWeaponsEventManager(this), this);
+    	pm.registerEvents(new UIEventManager(this), this);
     	
     	
     	Bukkit.getServer().getScheduler().runTaskTimer(this, stats, 1, 1);
