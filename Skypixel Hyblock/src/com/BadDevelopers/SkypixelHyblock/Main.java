@@ -1,14 +1,19 @@
 package com.BadDevelopers.SkypixelHyblock;
 
+import java.lang.reflect.Field;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.NamespacedKey;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.BadDevelopers.SkypixelHyblock.Currency.Currency;
 import com.BadDevelopers.SkypixelHyblock.Currency.EventManager;
 import com.BadDevelopers.SkypixelHyblock.Currency.MoneyCommand;
+import com.BadDevelopers.SkypixelHyblock.Enchantments.Glow;
 import com.BadDevelopers.SkypixelHyblock.Items.ArmourHandler;
 import com.BadDevelopers.SkypixelHyblock.Items.CustomWeaponsEventManager;
 import com.BadDevelopers.SkypixelHyblock.Items.DropsHandler;
@@ -26,11 +31,13 @@ public class Main extends JavaPlugin {
     @Override
     public void onEnable() {
     	
+    	registerEnchant(new Glow(new NamespacedKey(this, Glow.name)));
+    	
     	scoreboard = new Scoreboard(this);
     	currency = new Currency(this);
     	stats = new Stats();
     	
-    	initCommand(new GiveCommand());
+    	initCommand(new GiveCommand(this));
     	initCommand(new MoneyCommand());
     	
     	
@@ -62,5 +69,25 @@ public class Main extends JavaPlugin {
     	
     	pc.setExecutor(command);
     	pc.setTabCompleter(command.completer);
+    }
+    
+    void registerEnchant(Enchantment ench) {
+            try {
+                Field f = Enchantment.class.getDeclaredField("acceptingNew");
+                f.setAccessible(true);
+                f.set(null, true);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                Enchantment.registerEnchantment(ench);
+            }
+            catch (IllegalArgumentException e){
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+        
     }
 }
