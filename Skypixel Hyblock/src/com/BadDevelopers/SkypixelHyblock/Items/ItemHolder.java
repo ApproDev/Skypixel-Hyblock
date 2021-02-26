@@ -1,5 +1,6 @@
 package com.BadDevelopers.SkypixelHyblock.Items;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -12,6 +13,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.BadDevelopers.SkypixelHyblock.Main;
+import com.BadDevelopers.SkypixelHyblock.Enchantments.Glow;
 
 public interface ItemHolder {
 	public enum Item {
@@ -45,13 +47,19 @@ public interface ItemHolder {
 		IRON_LEGS(Material.IRON_LEGGINGS, Category.ARMOUR),
 		IRON_BOOTS(Material.IRON_BOOTS, Category.ARMOUR),
 		
-		LAPIS_HELM(Material.LEATHER_HELMET, Color.fromRGB(0, 0, 255), "Lapis Helmet", Category.ARMOUR, false, 25),
-		LAPIS_CHEST(Material.LEATHER_CHESTPLATE, Color.fromRGB(0, 0, 255), "Lapis Chestplate", Category.ARMOUR, false, 40),
-		LAPIS_LEGS(Material.LEATHER_LEGGINGS, Color.fromRGB(0, 0, 255), "Lapis Leggings", Category.ARMOUR, false, 35),
-		LAPIS_BOOTS(Material.LEATHER_BOOTS, Color.fromRGB(0, 0, 255), "Lapis Boots", Category.ARMOUR, false, 20),
+		LAPIS_HELM(Material.LEATHER_HELMET, Color.fromRGB(0, 0, 255), ChatColor.AQUA+"Lapis Helmet", Category.ARMOUR, false, 25),
+		LAPIS_CHEST(Material.LEATHER_CHESTPLATE, Color.fromRGB(0, 0, 255), ChatColor.AQUA+"Lapis Chestplate", Category.ARMOUR, false, 40),
+		LAPIS_LEGS(Material.LEATHER_LEGGINGS, Color.fromRGB(0, 0, 255), ChatColor.AQUA+"Lapis Leggings", Category.ARMOUR, false, 35),
+		LAPIS_BOOTS(Material.LEATHER_BOOTS, Color.fromRGB(0, 0, 255), ChatColor.AQUA+"Lapis Boots", Category.ARMOUR, false, 20),
+		
+		REDSTONE_HELM(Material.LEATHER_HELMET, Color.fromRGB(175, 0, 0), ChatColor.DARK_RED+"Redstone Helmet", Category.ARMOUR, false, 25),
+		REDSTONE_CHEST(Material.LEATHER_CHESTPLATE, Color.fromRGB(175, 0, 0), ChatColor.DARK_RED+"Redstone Chestplate", Category.ARMOUR, false, 25),
+		REDSTONE_LEGS(Material.LEATHER_LEGGINGS, Color.fromRGB(175, 0, 0), ChatColor.DARK_RED+"Redstone Leggings", Category.ARMOUR, false, 25),
+		REDSTONE_BOOTS(Material.LEATHER_BOOTS, Color.fromRGB(175, 0, 0), ChatColor.DARK_RED+"Redstone Boots", Category.ARMOUR, false, 25),
 		
 		
-		
+		ENCHANTED_DIAMOND(Material.DIAMOND, "Enchanted Diamond", Category.MATERIAL, new oreDic[0] , true),
+		STICK(Material.STICK, Category.MATERIAL),
 		
 		NULL(Material.AIR, "null", Category.NONE, true);
 		
@@ -64,10 +72,17 @@ public interface ItemHolder {
 		boolean isVanilla;
 		Color colour = null;
 		Integer armour = 0;
+		boolean looksEnchanted = false;
+		
 		Item(Material mat, Color colour, String name, Category cat, boolean isVanilla, Integer armour) {
 			this(mat, name, cat, isVanilla);
 			this.colour = colour;
 			this.armour = armour;
+		}
+		
+		Item(Material mat, String name, Category cat, oreDic[] oreDict, boolean looksEnchanted) {
+			this(mat, name, cat, oreDict);
+			this.looksEnchanted = looksEnchanted;
 		}
 		
 		Item(Material mat, String name, Category cat, boolean isVanilla, oreDic[] oreDict) {
@@ -100,9 +115,9 @@ public interface ItemHolder {
 			this(mat, mat.name(), cat, oreDict);
 		}
 
-		public void giveItem(Player p, int amount) {
+		public void giveItem(Player p, int amount, Main main) {
 			if (this.equals(Item.NULL)) return;
-			p.getInventory().addItem(getItem(amount));
+			p.getInventory().addItem(getItem(amount, main));
 		}
 		
 		public static Item getVanilla(Material mat) {
@@ -115,14 +130,15 @@ public interface ItemHolder {
 		}
 		
 		
-		public ItemStack getItem(int quantity) {
+		public ItemStack getItem(int quantity, Main main) {
 			ItemStack is = new ItemStack(mat, quantity);
 			
 			ItemMeta im = is.getItemMeta();
 			
 			if (im instanceof LeatherArmorMeta && colour != null) ((LeatherArmorMeta) im).setColor(colour);;
 			
-			im.setDisplayName(name);
+			if (looksEnchanted) im.addEnchant(new Glow(new NamespacedKey(main, Glow.name)), 1, true);
+			im.setDisplayName(ChatColor.RESET+name+ChatColor.RESET);
 			im.setUnbreakable(true);
 			
 			PersistentDataContainer tags = im.getPersistentDataContainer();
@@ -180,3 +196,4 @@ public interface ItemHolder {
 		return JavaPlugin.getPlugin(Main.class);
 	}
 }
+

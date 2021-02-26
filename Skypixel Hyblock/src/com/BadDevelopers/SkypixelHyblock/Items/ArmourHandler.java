@@ -22,14 +22,16 @@ public class ArmourHandler implements Runnable {
 	
 	
 	public enum ArmourSet {
-		LAPIS_ARMOUR(Item.LAPIS_HELM, Item.LAPIS_CHEST, Item.LAPIS_LEGS, Item.LAPIS_BOOTS, Stat.Health, 60),
+		LAPIS(Item.LAPIS_HELM, Item.LAPIS_CHEST, Item.LAPIS_LEGS, Item.LAPIS_BOOTS, new Stat[] {Stat.Health}, 60),
 		
-		IRON_ARMOUR(Item.IRON_HELM, Item.LAPIS_CHEST, Item.LAPIS_LEGS, Item.LAPIS_BOOTS),
+		IRON(Item.IRON_HELM, Item.LAPIS_CHEST, Item.LAPIS_LEGS, Item.LAPIS_BOOTS),
+		
+		REDSTONE(Item.REDSTONE_HELM, Item.REDSTONE_CHEST, Item.REDSTONE_LEGS, Item.REDSTONE_BOOTS, new Stat[] {Stat.Speed, Stat.Attack_Speed}, 50),
 		
 		NULL(Item.NULL, Item.NULL, Item.NULL, Item.NULL);
 		
 		Item helmet, chestplate, legs, boots;
-		Stat stat = Stat.NULL;
+		Stat[] stats = new Stat[] {Stat.NULL};
 		Integer amount = 0;
 		ArmourSet(Item helmet, Item chestplate, Item legs, Item boots) {
 			this.helmet = helmet;
@@ -38,9 +40,9 @@ public class ArmourHandler implements Runnable {
 			this.boots = boots;
 		}
 		
-		ArmourSet(Item helmet, Item chestplate, Item legs, Item boots, Stat stat, int amount) {
+		ArmourSet(Item helmet, Item chestplate, Item legs, Item boots, Stat[] stats, int amount) {
 			this(helmet, chestplate, legs, boots);
-			this.stat = stat;
+			this.stats = stats;
 			this.amount = amount;
 		}
 		
@@ -60,8 +62,8 @@ public class ArmourHandler implements Runnable {
 	private HashMap<UUID, ArmourSet> lastWearing = new HashMap<UUID, ArmourSet>();
 	private HashMap<UUID, Long> boostID = new HashMap<UUID, Long>();
 	
-	@Override
-	public void run() {
+		@Override
+		public void run() {
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			PlayerInventory pi = player.getInventory();
 			ItemStack[] armour = pi.getArmorContents();
@@ -95,7 +97,7 @@ public class ArmourHandler implements Runnable {
 			Long id = boostID.get(player.getUniqueId());
 			Main.stats.disableStat(id);
 			
-			boostID.put(player.getUniqueId(), Main.stats.addStat(player, ass.amount, ass.stat, Long.valueOf(Integer.MAX_VALUE), ass.name(), true));
+			boostID.put(player.getUniqueId(), Main.stats.addStatMultiple(player, ass.amount, ass.stats, Long.valueOf(Integer.MAX_VALUE), ass.name(), true));
 		}
 		
 		lastWearing.put(player.getUniqueId(), ass);
