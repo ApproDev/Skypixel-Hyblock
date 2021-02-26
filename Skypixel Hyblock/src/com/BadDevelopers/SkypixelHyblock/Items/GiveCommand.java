@@ -9,13 +9,17 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
+import com.BadDevelopers.SkypixelHyblock.Main;
 import com.BadDevelopers.SkypixelHyblock.Items.ItemHolder.Item;
 
 public class GiveCommand extends com.BadDevelopers.SkypixelHyblock.Command {
 	
-	public GiveCommand() {
+	Main main;
+	
+	public GiveCommand(Main main) {
 		completer = new GiveCompleter();
 		name = "skygive";
+		this.main = main;
 	}
 
 	@Override
@@ -35,7 +39,7 @@ public class GiveCommand extends com.BadDevelopers.SkypixelHyblock.Command {
 			quantity = Integer.parseInt(arg3[2]);
 		} catch (NumberFormatException e) {return false;}
 		
-		item.giveItem(player, quantity);
+		item.giveItem(player, quantity, main);
 		
 		return true;
 	}
