@@ -10,6 +10,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.entity.EntityDropItemEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import com.BadDevelopers.SkypixelHyblock.Main;
 
 public class DropsHandler implements Listener {
 	
@@ -35,7 +38,7 @@ public class DropsHandler implements Listener {
 
 			com.BadDevelopers.SkypixelHyblock.Items.ItemHolder.Item skyItem = com.BadDevelopers.SkypixelHyblock.Items.ItemHolder.Item.getVanilla(is.getType());
 			if (skyItem != null) {
-				ItemStack give = skyItem.getItem(is.getAmount());
+				ItemStack give = skyItem.getItem(is.getAmount(), JavaPlugin.getPlugin(Main.class));
 				
 				Location loc = item.getLocation();
 				
