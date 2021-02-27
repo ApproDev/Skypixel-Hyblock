@@ -22,7 +22,7 @@ public class UIEventManager implements Listener {
 
 			@Override
 			public void run() {
-				Bukkit.getPluginManager().registerEvents(new CraftingUI(event.getViewers().get(0), main), main);
+				Bukkit.getPluginManager().registerEvents(new OuterCraftingUI(event.getViewers().get(0), main), main);
 				}
 			}, 1);
 		
