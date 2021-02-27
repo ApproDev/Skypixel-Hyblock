@@ -20,6 +20,10 @@ public interface ItemHolder {
 		WORKBENCH(Material.CRAFTING_TABLE, "Workbench", Category.BLOCKS, true),
 		DIRT(Material.DIRT, "Dirt", Category.BLOCKS, true),
 		
+		OAK_PLANKS(Material.OAK_PLANKS, Category.BLOCKS),
+		
+		STONE(Material.STONE, Category.BLOCKS),
+		
 		OAK_LOG(Material.OAK_LOG, Category.BLOCKS, new oreDic[] {oreDic.LOG}),
 		SPRUCE_LOG(Material.SPRUCE_LOG, Category.BLOCKS, new oreDic[] {oreDic.LOG}),
 		DARK_LOG(Material.DARK_OAK_LOG, "Dark Log", Category.BLOCKS, new oreDic[] {oreDic.LOG}),
@@ -61,7 +65,7 @@ public interface ItemHolder {
 		ENCHANTED_DIAMOND(Material.DIAMOND, "Enchanted Diamond", Category.MATERIAL, new oreDic[0] , true),
 		STICK(Material.STICK, Category.MATERIAL),
 		
-		NULL(Material.AIR, "null", Category.NONE, true);
+		NULL(Material.AIR, "null", Category.NONE, false);
 		
 		
 		
@@ -161,6 +165,9 @@ public interface ItemHolder {
 		}
 		
 		public static Item valueOf(ItemStack is) {
+			if (is == null) return Item.NULL;
+			if (is.getItemMeta() == null) return Item.NULL;
+			if (is.getItemMeta().getPersistentDataContainer() == null) return Item.NULL;
 			PersistentDataContainer pds = is.getItemMeta().getPersistentDataContainer();
 			
 			if (!isSkyItem(is)) return Item.NULL;
