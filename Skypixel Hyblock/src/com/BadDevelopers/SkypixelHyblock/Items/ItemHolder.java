@@ -26,9 +26,17 @@ import com.mojang.authlib.properties.Property;
 public interface ItemHolder {
 	public enum Item {
 		
+
+		OAK_PLANKS(Material.OAK_PLANKS, Category.BLOCKS),
+		
+		STONE(Material.STONE, Category.BLOCKS),
+		
+
 		//vanilla blocks
 		WORKBENCH(Material.CRAFTING_TABLE, "Workbench", Category.BLOCKS, true),
 		DIRT(Material.DIRT, "Dirt", Category.BLOCKS, true),		
+
+    
 		OAK_LOG(Material.OAK_LOG, Category.BLOCKS, new oreDic[] {oreDic.LOG}),
 		SPRUCE_LOG(Material.SPRUCE_LOG, Category.BLOCKS, new oreDic[] {oreDic.LOG}),
 		DARK_LOG(Material.DARK_OAK_LOG, "Dark Log", Category.BLOCKS, new oreDic[] {oreDic.LOG}),
@@ -71,7 +79,7 @@ public interface ItemHolder {
 		//materials
 		ENCHANTED_DIAMOND(Material.DIAMOND, "Enchanted Diamond", Category.MATERIAL, new oreDic[0] , true),
 		STICK(Material.STICK, Category.MATERIAL),
-		
+
 		//talismans 
 		SHINY_YELLOW_ROCK(Material.GOLD_NUGGET, "Shiny yellow Rock", Category.TALISMAN, "ring_of_love", 1, true, new Stat[] {}, new Integer[] {}),
 		DAY_CRYSTAL(Material.NETHER_STAR, "Day Crystal", Category.TALISMAN, "day_crystal", 3, true, new Stat[] {}, new Integer[] {}),
@@ -130,8 +138,7 @@ public interface ItemHolder {
 		JOSH_TALISMAN("http://textures.minecraft.net/texture/46f06001bf95367c6a9e0717e4d2d41eb5a4c34d49f619ee12ebb88bc18bf837", "Josh Talisman", Category.TALISMAN, "josh", 7, false, new Stat[] {Stat.Speed}, new Integer[] {100}),
 		SEAN_TALISMAN("http://textures.minecraft.net/texture/5d3813d24a633062df28c5fb38ae8de808fe8da0ebc51e03b4df741da386dafb", "Sean Talisman", Category.TALISMAN, "sean", 7, false, new Stat[] {Stat.Speed}, new Integer[] {100}),
 		
-		NULL(Material.AIR, "null", Category.NONE, true);
-		
+		NULL(Material.AIR, "null", Category.NONE, true);		
 		
 		
 		Material mat;
@@ -265,6 +272,9 @@ public interface ItemHolder {
 		}
 		
 		public static Item valueOf(ItemStack is) {
+			if (is == null) return Item.NULL;
+			if (is.getItemMeta() == null) return Item.NULL;
+			if (is.getItemMeta().getPersistentDataContainer() == null) return Item.NULL;
 			PersistentDataContainer pds = is.getItemMeta().getPersistentDataContainer();
 			
 			if (!isSkyItem(is)) return Item.NULL;

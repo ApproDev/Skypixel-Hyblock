@@ -27,6 +27,7 @@ public abstract class InvHandler implements Listener {
         player.closeInventory();
 		player.openInventory(inv);
     }
+    
     public void initGUI() {inv = Bukkit.createInventory(null, 9, "Abstract");}
     public void initializeItems() {
     	for (int slot = 0; slot < inv.getSize(); slot++) if (!allowableSlots.contains(slot)) inv.setItem(slot, new ItemStack(Material.GRAY_STAINED_GLASS_PANE));
@@ -35,7 +36,14 @@ public abstract class InvHandler implements Listener {
     // Check for clicks on items
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
+    	if (e.getClickedInventory() == null) return;
         if (!e.getClickedInventory().equals(inv)) return;
+        if (e.getViewers().size() == 0) {
+        	e.getHandlers().unregister(this);
+        	return;
+        }
+        
+        invSpecificEvents(e);
 
         if (!allowableSlots.contains(e.getRawSlot())) e.setCancelled(true);
 
@@ -45,4 +53,6 @@ public abstract class InvHandler implements Listener {
         if (clickedItem == null) return;
         if (clickedItem.getType().equals(Material.AIR)) return;
     }
+    
+    abstract void invSpecificEvents(InventoryClickEvent e);
 }
