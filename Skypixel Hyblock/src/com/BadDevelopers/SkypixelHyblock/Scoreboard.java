@@ -13,10 +13,18 @@ import org.bukkit.scoreboard.ScoreboardManager;
 
 public class Scoreboard implements Runnable, Listener {
 
-	Main main;
-	ScoreboardManager manager = Bukkit.getScoreboardManager();
+	final Main main;
+	ScoreboardManager manager;
 	public Scoreboard(Main main) {
 		this.main = main;
+		
+		Bukkit.getScheduler().runTask(main, new Runnable() {
+
+			@Override
+			public void run() {
+				manager = Bukkit.getScoreboardManager();
+				
+			}});
 	}
 	
 	@Override
