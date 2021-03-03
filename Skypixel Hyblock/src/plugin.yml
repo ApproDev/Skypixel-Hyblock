@@ -4,6 +4,7 @@ author: BadDevelopers
 main: com.BadDevelopers.SkypixelHyblock.Main
 description: Our own spin on Hypixel Skyblock!
 api-version: 1.16
+depend: [WorldEdit]
 load: startup
 
 commands:
