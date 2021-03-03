@@ -56,11 +56,11 @@ public class Main extends JavaPlugin {
     	pm.registerEvents(gen, this);
     	
     	
-    	Bukkit.getServer().getScheduler().runTaskTimer(this, stats, 1, 1);
+    	Bukkit.getServer().getScheduler().runTaskTimer(this, stats, 0, 1);
     	
     	Bukkit.getServer().getScheduler().runTaskTimer(this, new ArmourHandler(this), 1, 1);
     	
-    	Bukkit.getServer().getScheduler().runTaskTimer(this, scoreboard ,0,1*20);
+    	Bukkit.getServer().getScheduler().runTaskTimer(this, scoreboard, 0, 5);
     	
     	Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() { // clear recipes on server start, as on load isnt possible
 			@Override

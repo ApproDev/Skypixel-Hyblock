@@ -3,7 +3,6 @@ package com.BadDevelopers.SkypixelHyblock;
 import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
-import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Player;
@@ -25,27 +24,26 @@ public class Stats implements Runnable {
 	static Main main = JavaPlugin.getPlugin(Main.class);
 	
 	public enum Stat {
-		Health(new NamespacedKey(main, "Health"), 5, Attribute.GENERIC_MAX_HEALTH),
-		Defence(new NamespacedKey(main, "Defence"), 100, Attribute.GENERIC_ARMOR),
-		Strength(new NamespacedKey(main, "Strength"), 50, Attribute.GENERIC_ATTACK_DAMAGE),
-		Crit_Chance(new NamespacedKey(main, "Crit_Chance"), 1),
-		Speed(new NamespacedKey(main, "Speed"), 1000, Attribute.GENERIC_MOVEMENT_SPEED),
-		Attack_Speed(new NamespacedKey(main, "Attack_Speed"), 100, Attribute.GENERIC_ATTACK_SPEED),
-		Intellegence(new NamespacedKey(main, "Intellegence"), 1),
+		Health(5, Attribute.GENERIC_MAX_HEALTH, '❤'),
+		Defence(100, Attribute.GENERIC_ARMOR, '❈'),
+		Strength(50, Attribute.GENERIC_ATTACK_DAMAGE, '❁'),
+		Crit_Chance(1, '☣'),
+		Speed(1000, Attribute.GENERIC_MOVEMENT_SPEED, '✦'),
+		Attack_Speed(100, Attribute.GENERIC_ATTACK_SPEED, '⚔'),
+		Intellegence(1, '✎'),
 		
-		NULL(null, Integer.MAX_VALUE);
+		NULL(Integer.MAX_VALUE, ' ');
 		
 		Attribute at;
-		NamespacedKey key;
-		double coeff;
-		Stat(NamespacedKey key, double coeff, Attribute at) {
-			this.key = key;
+		public double coeff;
+		public char sym;
+		Stat(double coeff, Attribute at, char sym) {
 			this.at = at;
+			this.sym = sym;
 			this.coeff = coeff;
 		}
-		Stat(NamespacedKey key, double coeff) {
-			this.key = key;
-			this.at = null;
+		Stat(double coeff, char sym) {
+			this.sym = sym;
 			this.coeff = coeff;
 		}
 		
@@ -93,12 +91,16 @@ public class Stats implements Runnable {
 		return false;
 	}
 	
-	public Integer getStat(Player player, Stat stat) {
-		if (stat.equals(Stat.NULL)) return 0;
+	public Double getStat(Player player, Stat stat) {
+		if (stat.equals(Stat.NULL)) return 0d;
 		
 		checkValidBoosts();
 		
-		return countBoosts(stat, player);
+		return countBoosts(stat, player)+(stat.getDefaultAttributeValue()*stat.coeff);
+	}
+	
+	public Long getLongStat(Player player, Stat stat) {
+		return Math.round(getStat(player, stat));
 	}
 	
 	/*

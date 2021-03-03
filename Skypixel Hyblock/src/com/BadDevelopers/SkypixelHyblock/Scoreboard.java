@@ -57,7 +57,7 @@ public class Scoreboard implements Runnable, Listener {
 		    if (moneySlot == null) {
 		    	moneySlot = board.registerNewObjective("moneySlot", "dummy", ChatColor.YELLOW + "" + ChatColor.BOLD + " HYBLOCK ");	
 		    }
-		    String allStats = ChatColor.RED + "" + Math.round(player.getHealth())*5  + "/" + Stats.getStat(player, Stat.Health) + " ❤      " + ChatColor.GREEN+ "" + Stats.getStat(player, Stat.Defence) + " ❈      " + ChatColor.AQUA + "" + Stats.getStat(player, Stat.Intellegence) + " ✎";
+		    String allStats = ChatColor.RED + "" + Math.round(player.getHealth())*5  + "/" + Main.stats.getLongStat(player, Stat.Health) + " "+Stat.Health.sym+"      " + ChatColor.GREEN+ "" + Main.stats.getLongStat(player, Stat.Defence) + " "+Stat.Defence.sym+"      " + ChatColor.AQUA + "" + Main.stats.getLongStat(player, Stat.Intellegence) + " "+Stat.Intellegence.sym+"      ";
 		    
 		    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(allStats));
 		    
