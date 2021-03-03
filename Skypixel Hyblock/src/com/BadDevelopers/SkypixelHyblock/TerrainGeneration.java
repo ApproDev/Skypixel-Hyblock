@@ -312,7 +312,7 @@ public class TerrainGeneration extends ChunkGenerator implements Listener {
 						light.setLit(true);
 						
 					}
-					((CraftWorld)block.getWorld()).getHandle().a(x, y, z, 12);
+					((CraftWorld) block.getWorld()).getHandle().a(x, y, z, 12);
 					((CraftWorld) world).getHandle().update(new BlockPosition(x, y, z), ((CraftBlock) chunk.getBlock(x, y, z)).getNMS().getBlock());
 					
 					//chunk.getBlock(x, y, z).getState().update(true, false);

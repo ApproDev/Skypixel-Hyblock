@@ -14,13 +14,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.BadDevelopers.SkypixelHyblock.Currency.Currency;
 import com.BadDevelopers.SkypixelHyblock.Currency.EventManager;
 import com.BadDevelopers.SkypixelHyblock.Currency.MoneyCommand;
-import com.BadDevelopers.SkypixelHyblock.Enchantments.EnchantCommand;
 import com.BadDevelopers.SkypixelHyblock.Enchantments.Glow;
-import com.BadDevelopers.SkypixelHyblock.Enchantments.Telekinesis;
 import com.BadDevelopers.SkypixelHyblock.Items.ArmourHandler;
 import com.BadDevelopers.SkypixelHyblock.Items.CustomWeaponsEventManager;
 import com.BadDevelopers.SkypixelHyblock.Items.DropsHandler;
 import com.BadDevelopers.SkypixelHyblock.Items.GiveCommand;
+import com.BadDevelopers.SkypixelHyblock.Skills.SkillsCommand;
+import com.BadDevelopers.SkypixelHyblock.Skills.SkillsHandler;
 import com.BadDevelopers.SkypixelHyblock.UI.UIEventManager;
 
 public class Main extends JavaPlugin {
@@ -32,32 +32,24 @@ public class Main extends JavaPlugin {
 	
 	public static String prefix = ChatColor.AQUA+"["+ChatColor.GOLD+"Hyblock"+ChatColor.AQUA+"] ";
 	
-	public Telekinesis telekinesis;
-	
-	public EnchantCommand enchCommand;
-	
     @Override
     public void onEnable() {
     	
-    	telekinesis = new Telekinesis(new NamespacedKey(this, Telekinesis.name));
-    	
     	registerEnchant(new Glow(new NamespacedKey(this, Glow.name)));
-    	registerEnchant(telekinesis);
     	
     	scoreboard = new Scoreboard(this);
     	currency = new Currency(this);
     	stats = new Stats();
     	
-    	enchCommand = new EnchantCommand(this);
-    	
     	initCommand(new GiveCommand(this));
     	initCommand(new MoneyCommand());
-    	initCommand(enchCommand);
+    	initCommand(new SkillsCommand());
     	
     	
     	PluginManager pm = Bukkit.getPluginManager();
     	pm.registerEvents(new EventManager(), this);
     	pm.registerEvents(scoreboard, this);
+    	pm.registerEvents(new SkillsHandler(), this);
     	pm.registerEvents(new DropsHandler(), this);
     	pm.registerEvents(new CustomWeaponsEventManager(this), this);
     	pm.registerEvents(new UIEventManager(this), this);

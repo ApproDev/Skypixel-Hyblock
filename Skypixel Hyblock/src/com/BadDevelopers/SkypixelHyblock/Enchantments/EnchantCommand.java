@@ -16,6 +16,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import com.BadDevelopers.SkypixelHyblock.Command;
 import com.BadDevelopers.SkypixelHyblock.Main;
 
+@Deprecated
 public class EnchantCommand extends Command {
 	
 	public Enchantment[] enchants;
@@ -23,7 +24,7 @@ public class EnchantCommand extends Command {
 	
 	public EnchantCommand(Main main) {
 		this.main = main;
-		this.enchants = new Enchantment[] {main.telekinesis};
+		//this.enchants = new Enchantment[] {main.telekinesis};
 		this.completer = new EnchantCompleter(enchants);
 		this.name = "skyenchant";
 	}
@@ -54,7 +55,6 @@ public class EnchantCommand extends Command {
 		return true;
 	}
 	
-	@SuppressWarnings("deprecation")
 	static ItemStack addEnchantment(ItemStack is, Enchantment ench, Integer quantity) throws Exception {
 		for (Enchantment e : is.getEnchantments().keySet()) if (ench.conflictsWith(e)) throw new Exception();
 		
@@ -64,7 +64,7 @@ public class EnchantCommand extends Command {
 		
 		if (lore == null) lore = new ArrayList<String>();
 		
-		lore.add(ChatColor.GRAY+ench.getName()+" "+IntegerToRomanNumeral(quantity)+ChatColor.RESET);
+		lore.add(ChatColor.GRAY+ench.getKey().getKey()+" "+IntegerToRomanNumeral(quantity)+ChatColor.RESET);
 		
 		im.setLore(lore);
 		
@@ -141,7 +141,6 @@ class EnchantCompleter implements TabCompleter {
 		this.enchants = enchants;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public List<String> onTabComplete(CommandSender arg0, org.bukkit.command.Command arg1, String arg2, String[] arg3) {
 		ArrayList<String> tab = new ArrayList<String>();
@@ -157,8 +156,13 @@ class EnchantCompleter implements TabCompleter {
 			break;
 		case 2:
 			for (Enchantment ench : enchants) {
-				if (!ench.getName().toLowerCase().contains(lastEntry.toLowerCase())) continue;
-				tab.add(ench.getName());
+				if (!ench
+						.getKey()
+						.getKey()
+						.toLowerCase()
+						.contains(lastEntry
+								.toLowerCase())) continue;
+				tab.add(ench.getKey().getKey());
 			}
 			break;
 		case 3:
