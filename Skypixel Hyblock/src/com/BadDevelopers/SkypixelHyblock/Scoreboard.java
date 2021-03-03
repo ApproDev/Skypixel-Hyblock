@@ -11,6 +11,11 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.ScoreboardManager;
 
+import com.BadDevelopers.SkypixelHyblock.Stats.Stat;
+
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
+
 public class Scoreboard implements Runnable, Listener {
 
 	final Main main;
@@ -52,6 +57,9 @@ public class Scoreboard implements Runnable, Listener {
 		    if (moneySlot == null) {
 		    	moneySlot = board.registerNewObjective("moneySlot", "dummy", ChatColor.YELLOW + "" + ChatColor.BOLD + " HYBLOCK ");	
 		    }
+		    String allStats = ChatColor.RED + "" + Math.round(player.getHealth())*5  + "/" + Stats.getStat(player, Stat.Health) + " ❤      " + ChatColor.GREEN+ "" + Stats.getStat(player, Stat.Defence) + " ❈      " + ChatColor.AQUA + "" + Stats.getStat(player, Stat.Intellegence) + " ✎";
+		    
+		    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(allStats));
 		    
 		    moneySlot.setDisplaySlot(DisplaySlot.SIDEBAR); 
 			
