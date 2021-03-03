@@ -7,13 +7,16 @@ import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.BadDevelopers.SkypixelHyblock.Currency.Currency;
 import com.BadDevelopers.SkypixelHyblock.Currency.EventManager;
 import com.BadDevelopers.SkypixelHyblock.Currency.MoneyCommand;
+import com.BadDevelopers.SkypixelHyblock.Enchantments.EnchantCommand;
 import com.BadDevelopers.SkypixelHyblock.Enchantments.Glow;
+import com.BadDevelopers.SkypixelHyblock.Enchantments.Telekinesis;
 import com.BadDevelopers.SkypixelHyblock.Items.ArmourHandler;
 import com.BadDevelopers.SkypixelHyblock.Items.CustomWeaponsEventManager;
 import com.BadDevelopers.SkypixelHyblock.Items.DropsHandler;
@@ -29,17 +32,27 @@ public class Main extends JavaPlugin {
 	
 	public static String prefix = ChatColor.AQUA+"["+ChatColor.GOLD+"Hyblock"+ChatColor.AQUA+"] ";
 	
+	public Telekinesis telekinesis;
+	
+	public EnchantCommand enchCommand;
+	
     @Override
     public void onEnable() {
     	
+    	telekinesis = new Telekinesis(new NamespacedKey(this, Telekinesis.name));
+    	
     	registerEnchant(new Glow(new NamespacedKey(this, Glow.name)));
+    	registerEnchant(telekinesis);
     	
     	scoreboard = new Scoreboard(this);
     	currency = new Currency(this);
     	stats = new Stats();
     	
+    	enchCommand = new EnchantCommand(this);
+    	
     	initCommand(new GiveCommand(this));
     	initCommand(new MoneyCommand());
+    	initCommand(enchCommand);
     	
     	
     	PluginManager pm = Bukkit.getPluginManager();
@@ -48,6 +61,7 @@ public class Main extends JavaPlugin {
     	pm.registerEvents(new DropsHandler(), this);
     	pm.registerEvents(new CustomWeaponsEventManager(this), this);
     	pm.registerEvents(new UIEventManager(this), this);
+    	pm.registerEvents(gen, this);
     	
     	
     	Bukkit.getServer().getScheduler().runTaskTimer(this, stats, 1, 1);
@@ -61,7 +75,7 @@ public class Main extends JavaPlugin {
 			public void run() {
 				
 				Bukkit.clearRecipes();
-
+				//for (World world : Bukkit.getWorlds()) gen.onWorldLoad(new WorldLoadEvent(world));
 			}
     	});
     }
@@ -91,5 +105,12 @@ public class Main extends JavaPlugin {
                 e.printStackTrace();
             }
         
+    }
+    
+    public TerrainGeneration gen = new TerrainGeneration(this);
+    
+    @Override
+	public ChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
+    	return gen;
     }
 }
