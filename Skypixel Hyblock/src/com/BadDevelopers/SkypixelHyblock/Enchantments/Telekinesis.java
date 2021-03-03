@@ -5,6 +5,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.enchantments.EnchantmentTarget;
 import org.bukkit.inventory.ItemStack;
 
+@Deprecated
 public class Telekinesis extends Enchantment {
 	
 	public static String name = "Telekinesis";
@@ -18,7 +19,6 @@ public class Telekinesis extends Enchantment {
 		return (EnchantmentTarget.TOOL.includes(item) || EnchantmentTarget.WEAPON.includes(item));
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public boolean conflictsWith(Enchantment other) {
 		if (other.getName().equals(getName())) return true;

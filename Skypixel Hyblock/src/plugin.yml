@@ -14,3 +14,9 @@ commands:
   skycoin:
     description: Gives you skyblock coins!
     usage: /skycoin <playername> <action> <quantity>
+  skyskill:
+    description: If you're seeing this, I've fucked up...
+    usage: If you're seeing this, I've fucked up...
+  skyenchant:
+    description: Enchants a held item!
+    usage: /skyenchant <playername> <enchantment> <level>

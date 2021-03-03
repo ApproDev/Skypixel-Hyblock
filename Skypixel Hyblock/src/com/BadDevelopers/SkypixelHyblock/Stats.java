@@ -7,8 +7,6 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Player;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.BadDevelopers.SkypixelHyblock.Stats.Stat;
@@ -95,34 +93,43 @@ public class Stats implements Runnable {
 		return false;
 	}
 	
+	public Integer getStat(Player player, Stat stat) {
+		if (stat.equals(Stat.NULL)) return 0;
+		
+		checkValidBoosts();
+		
+		return countBoosts(stat, player);
+	}
+	
+	/*
 	public static Integer getStat(Player player, Stat stat) {
-		PersistentDataContainer pdc = player.getPersistentDataContainer();
+		//PersistentDataContainer pdc = player.getPersistentDataContainer();
 		
 		if (stat.equals(Stat.NULL)) return 0;
 		
-		Integer hp = pdc.get(stat.key, PersistentDataType.INTEGER);
+		//Integer hp = pdc.get(stat.key, PersistentDataType.INTEGER);
 		
 		if (hp == null) return setStat(player, 100, stat);
 		
 		return hp;
-	}
-	
+	}*/
+	/*
 	private static Integer setStat(Player player, int amount, Stat stat) {
-		PersistentDataContainer pdc = player.getPersistentDataContainer();
+		//PersistentDataContainer pdc = player.getPersistentDataContainer();
 		
 		if (stat.equals(Stat.NULL)) return 0;
 		
-		pdc.set(stat.key, PersistentDataType.INTEGER, amount);
+		//pdc.set(stat.key, PersistentDataType.INTEGER, amount);
 		
 		return amount;
-	}
+	}*/
 	
 	ArrayList<statBoost> boosts = new ArrayList<statBoost>();
 	Long lastID = -1L;
 	public Long addStat(Player player, int amount, Stat stat, Long expires, String booster, boolean isPassive) {
 		Long id = lastID + 1L;
 		boosts.add(new statBoost(amount, expires, id, stat, player, booster, isPassive));
-		setStat(player, getStat(player, stat) + amount, stat);
+		//setStat(player, getStat(player, stat) + amount, stat);
 		lastID = id;
 		//player.sendMessage(stat.toString() + "" + amount);
 		return id;
@@ -132,7 +139,7 @@ public class Stats implements Runnable {
 		Long id = lastID + 1L;
 		for (Stat stat : stats) {
 			boosts.add(new statBoost(amount, expires, id, stat, player, booster, isPassive));
-			setStat(player, getStat(player, stat) + amount, stat);
+			//setStat(player, getStat(player, stat) + amount, stat);
 		}
 		lastID = id;
 		//player.sendMessage(stat.toString() + "" + amount);
