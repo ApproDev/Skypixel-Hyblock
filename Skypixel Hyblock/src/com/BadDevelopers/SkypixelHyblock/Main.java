@@ -11,9 +11,11 @@ import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.BadDevelopers.SkypixelHyblock.CustomMobs.SummonCommand;
 import com.BadDevelopers.SkypixelHyblock.Currency.Currency;
 import com.BadDevelopers.SkypixelHyblock.Currency.EventManager;
 import com.BadDevelopers.SkypixelHyblock.Currency.MoneyCommand;
+import com.BadDevelopers.SkypixelHyblock.CustomMobs.CustomEntitiesHelper;
 import com.BadDevelopers.SkypixelHyblock.Enchantments.Glow;
 import com.BadDevelopers.SkypixelHyblock.Items.ArmourHandler;
 import com.BadDevelopers.SkypixelHyblock.Items.CustomWeaponsEventManager;
@@ -27,6 +29,8 @@ public class Main extends JavaPlugin {
 	
 	public Scoreboard scoreboard;
 	public Currency currency;
+	
+	public static CustomEntitiesHelper customEntitiesHelper = new CustomEntitiesHelper();
 	
 	public static Stats stats;
 	
@@ -44,6 +48,8 @@ public class Main extends JavaPlugin {
     	initCommand(new GiveCommand(this));
     	initCommand(new MoneyCommand());
     	initCommand(new SkillsCommand());
+    	initCommand(new SummonCommand(this));
+    	initCommand(new RideCommand());
     	
     	
     	PluginManager pm = Bukkit.getPluginManager();
@@ -104,5 +110,30 @@ public class Main extends JavaPlugin {
     @Override
 	public ChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
     	return gen;
+    }
+    
+    public static Object getPrivateField(String fieldName, Class<?> clazz, Object object)
+    {
+        Field field;
+        Object o = null;
+
+        try
+        {
+            field = clazz.getDeclaredField(fieldName);
+
+            field.setAccessible(true);
+
+            o = field.get(object);
+        }
+        catch(NoSuchFieldException e)
+        {
+            e.printStackTrace();
+        }
+        catch(IllegalAccessException e)
+        {
+            e.printStackTrace();
+        }
+
+        return o;
     }
 }
