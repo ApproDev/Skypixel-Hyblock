@@ -12,13 +12,14 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.BadDevelopers.SkypixelHyblock.Currency.Currency;
-import com.BadDevelopers.SkypixelHyblock.Currency.EventManager;
-import com.BadDevelopers.SkypixelHyblock.Currency.MoneyCommand;
+import com.BadDevelopers.SkypixelHyblock.Currency.CurrencyManager;
+import com.BadDevelopers.SkypixelHyblock.Currency.CurrencyCommand;
 import com.BadDevelopers.SkypixelHyblock.Enchantments.Glow;
 import com.BadDevelopers.SkypixelHyblock.Items.ArmourHandler;
 import com.BadDevelopers.SkypixelHyblock.Items.CustomWeaponsEventManager;
 import com.BadDevelopers.SkypixelHyblock.Items.DropsHandler;
 import com.BadDevelopers.SkypixelHyblock.Items.GiveCommand;
+import com.BadDevelopers.SkypixelHyblock.Items.TalismanHandler;
 import com.BadDevelopers.SkypixelHyblock.Skills.SkillsCommand;
 import com.BadDevelopers.SkypixelHyblock.Skills.SkillsHandler;
 import com.BadDevelopers.SkypixelHyblock.UI.UIEventManager;
@@ -42,12 +43,12 @@ public class Main extends JavaPlugin {
     	stats = new Stats();
     	
     	initCommand(new GiveCommand(this));
-    	initCommand(new MoneyCommand());
+    	initCommand(new CurrencyCommand());
     	initCommand(new SkillsCommand());
     	
     	
     	PluginManager pm = Bukkit.getPluginManager();
-    	pm.registerEvents(new EventManager(), this);
+    	pm.registerEvents(new CurrencyManager(), this);
     	pm.registerEvents(scoreboard, this);
     	pm.registerEvents(new SkillsHandler(), this);
     	pm.registerEvents(new DropsHandler(), this);
@@ -61,6 +62,8 @@ public class Main extends JavaPlugin {
     	Bukkit.getServer().getScheduler().runTaskTimer(this, new ArmourHandler(this), 1, 1);
     	
     	Bukkit.getServer().getScheduler().runTaskTimer(this, scoreboard, 0, 5);
+    	
+    	Bukkit.getServer().getScheduler().runTaskTimer(this, new TalismanHandler(), 0, 1*20);
     	
     	Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() { // clear recipes on server start, as on load isnt possible
 			@Override
