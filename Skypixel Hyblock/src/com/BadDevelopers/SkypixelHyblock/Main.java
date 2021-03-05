@@ -11,16 +11,11 @@ import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.BadDevelopers.SkypixelHyblock.CustomMobs.SummonCommand;
 import com.BadDevelopers.SkypixelHyblock.Currency.Currency;
-
-import com.BadDevelopers.SkypixelHyblock.Currency.EventManager;
-import com.BadDevelopers.SkypixelHyblock.Currency.MoneyCommand;
-import com.BadDevelopers.SkypixelHyblock.CustomMobs.CustomEntitiesHelper;
-
-import com.BadDevelopers.SkypixelHyblock.Currency.CurrencyManager;
 import com.BadDevelopers.SkypixelHyblock.Currency.CurrencyCommand;
-
+import com.BadDevelopers.SkypixelHyblock.Currency.CurrencyEventManager;
+import com.BadDevelopers.SkypixelHyblock.CustomMobs.CustomEntitiesHelper;
+import com.BadDevelopers.SkypixelHyblock.CustomMobs.SummonCommand;
 import com.BadDevelopers.SkypixelHyblock.Enchantments.Glow;
 import com.BadDevelopers.SkypixelHyblock.Items.ArmourHandler;
 import com.BadDevelopers.SkypixelHyblock.Items.CustomWeaponsEventManager;
@@ -59,7 +54,7 @@ public class Main extends JavaPlugin {
     	
     	
     	PluginManager pm = Bukkit.getPluginManager();
-    	pm.registerEvents(new CurrencyManager(), this);
+    	pm.registerEvents(new CurrencyEventManager(), this);
     	pm.registerEvents(scoreboard, this);
     	pm.registerEvents(new SkillsHandler(), this);
     	pm.registerEvents(new DropsHandler(), this);
