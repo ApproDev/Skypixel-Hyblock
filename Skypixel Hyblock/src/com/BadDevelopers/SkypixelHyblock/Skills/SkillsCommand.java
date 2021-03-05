@@ -42,7 +42,7 @@ public class SkillsCommand extends Command{
 		
 		Integer quantity;
 		try {
-			quantity = Integer.parseInt(arg3[2]);
+			quantity = Integer.parseInt(arg3[3]);
 		} catch (NumberFormatException UselessVariable) {return false;}
 		
 		switch (arg3[1].toLowerCase()) {
@@ -53,13 +53,18 @@ public class SkillsCommand extends Command{
 				
 			case "add":
 				Skill.valueOf(arg3[2]).setSkill(targetPlayer, Skill.valueOf(arg3[2]).getSkill(targetPlayer) + quantity);
+				main.scoreboard.playerSkillGain.put(player, quantity);
 				break;
 				
 			case "remove":
 				Skill.valueOf(arg3[2]).setSkill(targetPlayer, Skill.valueOf(arg3[2]).getSkill(targetPlayer) - quantity);
+				main.scoreboard.playerSkillGain.put(player, - quantity);
 				break;	
 		}
 		
+		main.scoreboard.playerSkillGainType.put(player, Skill.valueOf(arg3[2]));
+		main.scoreboard.playerActionBarCooldown.put(player, 0);
+
 		return true;
 	}
 
