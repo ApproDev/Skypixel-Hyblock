@@ -23,6 +23,7 @@ import com.BadDevelopers.SkypixelHyblock.Enchantments.Glow;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 
+// All items & various functions concerning said items
 public interface ItemHolder {
 	public enum Item {
 		
@@ -37,10 +38,10 @@ public interface ItemHolder {
 		DIRT(Material.DIRT, "Dirt", Category.BLOCKS, true),		
 
     
-		OAK_LOG(Material.OAK_LOG, Category.BLOCKS, new oreDic[] {oreDic.LOG}),
-		SPRUCE_LOG(Material.SPRUCE_LOG, Category.BLOCKS, new oreDic[] {oreDic.LOG}),
-		DARK_LOG(Material.DARK_OAK_LOG, "Dark Log", Category.BLOCKS, new oreDic[] {oreDic.LOG}),
-		SHIT_LOG(Material.BIRCH_LOG, Category.BLOCKS, new oreDic[] {oreDic.LOG}),
+		OAK_LOG(Material.OAK_LOG, Category.BLOCKS),
+		SPRUCE_LOG(Material.SPRUCE_LOG, Category.BLOCKS),
+		DARK_LOG(Material.DARK_OAK_LOG, "Dark Log", Category.BLOCKS),
+		SHIT_LOG(Material.BIRCH_LOG, Category.BLOCKS),
 		
 		//vanilla weapons
 		WOOD_SWORD(Material.WOODEN_SWORD, Category.WEAPONS),
@@ -77,7 +78,7 @@ public interface ItemHolder {
 		REDSTONE_BOOTS(Material.LEATHER_BOOTS, Color.fromRGB(175, 0, 0), ChatColor.DARK_RED+"Redstone Boots", Category.ARMOUR, false, 25),
 		
 		//materials
-		ENCHANTED_DIAMOND(Material.DIAMOND, "Enchanted Diamond", Category.MATERIAL, new oreDic[0] , false),
+		ENCHANTED_DIAMOND(Material.DIAMOND, "Enchanted Diamond", Category.MATERIAL, false),
 		STICK(Material.STICK, Category.MATERIAL),
 
 		//talismans 
@@ -144,7 +145,6 @@ public interface ItemHolder {
 		Material mat;
 		String name;
 		Category cat;
-		oreDic[] oreDict;
 		boolean isVanilla;
 		Color colour = null;
 		Integer armour = 0;
@@ -179,45 +179,29 @@ public interface ItemHolder {
 			this.statValues = statValues;
 		}
 		
+		// Leather armour
 		Item(Material mat, Color colour, String name, Category cat, boolean isVanilla, Integer armour) {
 			this(mat, name, cat, isVanilla);
 			this.colour = colour;
 			this.armour = armour;
 		}
 		
-		Item(Material mat, String name, Category cat, oreDic[] oreDict, boolean looksEnchanted) {
-			this(mat, name, cat, oreDict);
-			this.looksEnchanted = looksEnchanted;
-		}
-		
-		Item(Material mat, String name, Category cat, boolean isVanilla, oreDic[] oreDict) {
+		Item(Material mat, String name, Category cat, boolean isVanilla) {
 			this.mat = mat;
 			this.name = name;
 			this.cat = cat;
 			this.isVanilla = isVanilla;
-			this.oreDict = oreDict;
 		}
 		
-		Item(Material mat, String name, Category cat, boolean isVanilla) {
-			this( mat, name, cat, isVanilla, new oreDic[0] );
-		}
 		Item(Material mat, String name, Category cat) {
-			this( mat, name, cat, false, new oreDic[0] );
+			this( mat, name, cat, false);
 		}
 		
 		Item(Material mat, String name) {
-			this( mat, name, Category.NONE, false, new oreDic[0] );
+			this( mat, name, Category.NONE, false);
 		}
 		Item(Material mat, Category cat) {
-			this( mat, mat.name(), cat, true, new oreDic[0] );
-		}
-		
-		Item(Material mat, String name, Category cat, oreDic[] oreDict) {
-			this(mat, name, cat, true);
-		}
-
-		Item(Material mat, Category cat, oreDic[] oreDict) {
-			this(mat, mat.name(), cat, oreDict);
+			this( mat, mat.getKey().getKey(), cat, true);
 		}
 
 		public void giveItem(Player p, int amount, Main main) {
@@ -313,13 +297,6 @@ public interface ItemHolder {
 			} 
 		
 	}
-	
-	public enum oreDic {
-		LOG,
-		STONE,
-		COBBLESTONE
-	}
-	
 	
 	
 	public enum Category {

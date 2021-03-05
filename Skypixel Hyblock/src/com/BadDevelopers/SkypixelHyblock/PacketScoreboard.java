@@ -10,6 +10,8 @@ import net.minecraft.server.v1_16_R3.IScoreboardCriteria;
 import net.minecraft.server.v1_16_R3.PacketPlayOutScoreboardObjective;
 import net.minecraft.server.v1_16_R3.PlayerConnection;
 
+
+//Deprecated as we don't use packets to create a scoreboard. I left it in in case we need to change our system someday
 @Deprecated
 public class PacketScoreboard implements Runnable {
 	

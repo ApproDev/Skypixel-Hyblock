@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 
 import com.BadDevelopers.SkypixelHyblock.Main;
 
+// Unfinished, as we're not sure what we'll use anvils for
 public class AnvilUI extends InvHandler {
 
 	public AnvilUI(HumanEntity player, Main main) {
