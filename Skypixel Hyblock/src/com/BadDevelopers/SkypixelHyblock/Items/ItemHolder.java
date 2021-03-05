@@ -135,8 +135,8 @@ public interface ItemHolder {
 		
 		
 		//special talismans
-		JOSH_TALISMAN("http://textures.minecraft.net/texture/46f06001bf95367c6a9e0717e4d2d41eb5a4c34d49f619ee12ebb88bc18bf837", "Josh Talisman", Category.TALISMAN, "josh", 7, false, new Stat[] {Stat.Speed}, new Integer[] {100}),
-		SEAN_TALISMAN("http://textures.minecraft.net/texture/5d3813d24a633062df28c5fb38ae8de808fe8da0ebc51e03b4df741da386dafb", "Sean Talisman", Category.TALISMAN, "sean", 7, false, new Stat[] {Stat.Speed}, new Integer[] {100}),
+		JOSH_TALISMAN("http://textures.minecraft.net/texture/46f06001bf95367c6a9e0717e4d2d41eb5a4c34d49f619ee12ebb88bc18bf837", "Josh Talisman", Category.TALISMAN, "josh", 7, false, new Stat[] {Stat.Health}, new Integer[] {20}),
+		SEAN_TALISMAN("http://textures.minecraft.net/texture/5d3813d24a633062df28c5fb38ae8de808fe8da0ebc51e03b4df741da386dafb", "Sean Talisman", Category.TALISMAN, "sean", 7, false, new Stat[] {Stat.Defence}, new Integer[] {50}),
 		
 		NULL(Material.AIR, "null", Category.NONE, true);		
 		
