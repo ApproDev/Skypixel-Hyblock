@@ -1,5 +1,7 @@
 package com.BadDevelopers.SkypixelHyblock;
 
+import java.util.HashMap;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -12,12 +14,17 @@ import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.ScoreboardManager;
 
 import com.BadDevelopers.SkypixelHyblock.Stats.Stat;
+import com.BadDevelopers.SkypixelHyblock.Skills.Skills.Skill;
 
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 
 public class Scoreboard implements Runnable, Listener {
 
+	public HashMap<Player, Integer> playerSkillGain = new HashMap<Player, Integer>();
+	public HashMap<Player, Skill> playerSkillGainType = new HashMap<Player, Skill>();
+	public HashMap<Player, Integer> playerActionBarCooldown = new HashMap<Player, Integer>();
+	
 	final Main main;
 	ScoreboardManager manager;
 	public Scoreboard(Main main) {
@@ -34,8 +41,7 @@ public class Scoreboard implements Runnable, Listener {
 	
 	@Override
 	public void run() {
-		
-	    
+		   
 		ScoreboardReload();
 		
 	}
@@ -53,11 +59,38 @@ public class Scoreboard implements Runnable, Listener {
 			org.bukkit.scoreboard.Scoreboard board = player.getScoreboard();
 			
 			Objective moneySlot = board.getObjective("moneySlot");
+			
 			// MoneySlot objective Init
 		    if (moneySlot == null) {
 		    	moneySlot = board.registerNewObjective("moneySlot", "dummy", ChatColor.YELLOW + "" + ChatColor.BOLD + " HYBLOCK ");	
 		    }
-		    String allStats = ChatColor.RED + "" + Math.round(player.getHealth())*5  + "/" + Main.stats.getLongStat(player, Stat.Health) + " "+Stat.Health.sym+"      " + ChatColor.GREEN+ "" + Main.stats.getLongStat(player, Stat.Defence) + " "+Stat.Defence.sym+"      " + ChatColor.AQUA + "" + Main.stats.getLongStat(player, Stat.Intellegence) + " "+Stat.Intellegence.sym+"      ";
+		    
+		    //if no cooldown, sets the cooldown to 10
+		    if (playerActionBarCooldown.get(player) == null) {
+		    	
+		    	playerActionBarCooldown.put(player, 10);	    	
+		    }
+		    
+		    playerActionBarCooldown.put(player, playerActionBarCooldown.get(player) + 1);
+		    
+		    if (playerActionBarCooldown.get(player) >= 10) {
+		    	
+		    	playerSkillGain.put(player, null);
+		    	playerActionBarCooldown.put(player, 0);
+		    	
+		    }
+		    
+		    String skillStat;
+		    
+		    //checks if player has gained skill xp
+		    if (playerSkillGain.get(player) != null) {
+		    	
+		    	skillStat = "+" + playerSkillGain.get(player) + " " + playerSkillGainType.get(player) + " " + "(" + playerSkillGainType.get(player).getSkill(player)+ ")    ";	
+		    
+		    }
+		    else {skillStat = "";}
+		    
+		    String allStats = ChatColor.GREEN + "" + skillStat + ChatColor.AQUA + "" + Main.stats.getLongStat(player, Stat.Intellegence) + " "+Stat.Intellegence.sym;
 		    
 		    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(allStats));
 		    

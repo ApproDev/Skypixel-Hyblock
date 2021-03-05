@@ -24,7 +24,8 @@ public class Skills {
 		Foraging(new NamespacedKey(main, "Foraging")),
 		Fishing(new NamespacedKey(main, "Fishing")),
 		Farming(new NamespacedKey(main, "Farming")),
-		Animal_Handling(new NamespacedKey(main, "Animal_Handling"));
+		Animal_Handling(new NamespacedKey(main, "Animal_Handling")),
+		Excavating(new NamespacedKey(main, "Excavating"));
 		
 		NamespacedKey key;
 		
