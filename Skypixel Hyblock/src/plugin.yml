@@ -20,3 +20,9 @@ commands:
   skyenchant:
     description: Enchants a held item!
     usage: /skyenchant <playername> <enchantment> <level>
+  skysummon:
+    description: Summons a custom entity!
+    usage: /skysummon <entity type>
+  skyride:
+    description: allows an entity to ride another entity!
+    usage: /skyride <entity uuid> <entity uuid>
