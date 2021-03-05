@@ -8,7 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.BadDevelopers.SkypixelHyblock.Main;
 
-public class EventManager implements Listener {
+public class CurrencyEventManager implements Listener {
 	
 	Main main = JavaPlugin.getPlugin(Main.class);
 	

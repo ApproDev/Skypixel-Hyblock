@@ -12,9 +12,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.BadDevelopers.SkypixelHyblock.Main;
 
-public class MoneyCommand extends com.BadDevelopers.SkypixelHyblock.Command{
+public class CurrencyCommand extends com.BadDevelopers.SkypixelHyblock.Command{
 	
-	public MoneyCommand() {
+	public CurrencyCommand() {
 		completer = new MoneyTabCompleter();
 		name = "skycoin";
 	}

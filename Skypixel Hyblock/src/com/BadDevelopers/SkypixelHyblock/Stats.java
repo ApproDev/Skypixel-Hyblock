@@ -24,13 +24,13 @@ public class Stats implements Runnable {
 	static Main main = JavaPlugin.getPlugin(Main.class);
 	
 	public enum Stat {
-		Health(5, Attribute.GENERIC_MAX_HEALTH, '❤'),
-		Defence(100, Attribute.GENERIC_ARMOR, '❈'),
-		Strength(50, Attribute.GENERIC_ATTACK_DAMAGE, '❁'),
-		Crit_Chance(1, '☣'),
-		Speed(1000, Attribute.GENERIC_MOVEMENT_SPEED, '✦'),
-		Attack_Speed(100, Attribute.GENERIC_ATTACK_SPEED, '⚔'),
-		Intellegence(1, '✎'),
+		Health(5, Attribute.GENERIC_MAX_HEALTH, 'h'),
+		Defence(100, Attribute.GENERIC_ARMOR, 'd'),
+		Strength(50, Attribute.GENERIC_ATTACK_DAMAGE, 's'),
+		Crit_Chance(1, 'c'),
+		Speed(1000, Attribute.GENERIC_MOVEMENT_SPEED, 'd'),
+		Attack_Speed(100, Attribute.GENERIC_ATTACK_SPEED, 'a'),
+		Intellegence(1, 'i'),
 		
 		NULL(Integer.MAX_VALUE, ' ');
 		
