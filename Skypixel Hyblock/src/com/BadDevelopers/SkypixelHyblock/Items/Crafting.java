@@ -4,7 +4,7 @@ import com.BadDevelopers.SkypixelHyblock.Items.ItemHolder.Item;
 
 public class Crafting {
 	
-	public static enum RecipeType {
+	public static enum RecipeType { // Types of recipe. Appears in OuterCraftingUI
 		WOODWORKING("Woodworking", Item.OAK_PLANKS, new Recipe[] {Recipe.OAK_LOG_TO_PLANKS}),
 		STONEWORKING("Stoneworking", Item.STONE, new Recipe[] {});
 		
@@ -24,7 +24,7 @@ public class Crafting {
 	}
 	
 	
-	public static enum Recipe {
+	public static enum Recipe { // Individual recipies. Used in CraftingUI
 		
 		OAK_LOG_TO_PLANKS(Item.OAK_PLANKS, 4, new Item[] {Item.OAK_LOG}, new Integer[] {1}),
 		
@@ -46,7 +46,7 @@ public class Crafting {
 			return values()[ordinal];
 		}
 		
-		
+		// This behemouth is from when we were gonna make the vanilla crafting grid. We switched as I couldnt get it working
 		/*@SuppressWarnings("unused")
 		public static Crafting getRecipe(Item[][] table) {
 			for (Recipe rec : values()) {

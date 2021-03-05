@@ -20,9 +20,11 @@ public class Stats implements Runnable {
  * IQ
  * 
  */
-	
+	//This class is instanciated outside of a static context, so this doesn't return null
 	static Main main = JavaPlugin.getPlugin(Main.class);
 	
+	
+	//If you want to add a new stat, add it here and everything should work just fine
 	public enum Stat {
 		Health(5, Attribute.GENERIC_MAX_HEALTH, 'h'),
 		Defence(100, Attribute.GENERIC_ARMOR, 'd'),
@@ -30,7 +32,7 @@ public class Stats implements Runnable {
 		Crit_Chance(1, 'c'),
 		Speed(1000, Attribute.GENERIC_MOVEMENT_SPEED, 'd'),
 		Attack_Speed(100, Attribute.GENERIC_ATTACK_SPEED, 'a'),
-		Intellegence(1, 'i'),
+		Intelligence(1, 'i'),
 		
 		NULL(Integer.MAX_VALUE, ' ');
 		
@@ -41,12 +43,13 @@ public class Stats implements Runnable {
 			this.at = at;
 			this.sym = sym;
 			this.coeff = coeff;
-		}
+		} // not all stats have an attribute, so there needs to be another method
 		Stat(double coeff, char sym) {
 			this.sym = sym;
 			this.coeff = coeff;
 		}
 		
+		//uses magic values as I couldn't find another way
 		double getDefaultAttributeValue() {
 			switch(this) {
 			case Health:
@@ -63,7 +66,7 @@ public class Stats implements Runnable {
 				return 0;
 			}
 		}
-		
+		// Resets a player's stats. This is used everytime stats are refreshed, so there is no need for it to be used outside of this class
 		public void Reset(Player player) {
 			if (this.at == null) return;
 			
@@ -72,6 +75,11 @@ public class Stats implements Runnable {
 			ai.setBaseValue(getDefaultAttributeValue());
 		}
 		
+		/*This updates a player's stats.
+		 *NOTE: DO NOT USE THIS. If you wish to add to / take from a player's stats, use
+		 *Stats#addStat as if you update it directly, it will be reset very quickly by this class'
+		 *update cycle
+		*/
 		public void Update(Player player, int amount) {
 			
 			if (this.at == null) return;
@@ -84,6 +92,7 @@ public class Stats implements Runnable {
 		}
 	}
 	
+	// Allows you to check if a stat boost is present on a player
 	public boolean isReasonPresent(Player player, String string) {
 		for (statBoost boost : boosts) {
 			if (boost.booster.equals(string)) return true;
@@ -91,6 +100,7 @@ public class Stats implements Runnable {
 		return false;
 	}
 	
+	// Allows you to get one of a player's stats
 	public Double getStat(Player player, Stat stat) {
 		if (stat.equals(Stat.NULL)) return 0d;
 		
@@ -99,35 +109,17 @@ public class Stats implements Runnable {
 		return countBoosts(stat, player)+(stat.getDefaultAttributeValue()*stat.coeff);
 	}
 	
+	// Gets the stat as a round number
 	public Long getLongStat(Player player, Stat stat) {
 		return Math.round(getStat(player, stat));
 	}
 	
-	/*
-	public static Integer getStat(Player player, Stat stat) {
-		//PersistentDataContainer pdc = player.getPersistentDataContainer();
-		
-		if (stat.equals(Stat.NULL)) return 0;
-		
-		//Integer hp = pdc.get(stat.key, PersistentDataType.INTEGER);
-		
-		if (hp == null) return setStat(player, 100, stat);
-		
-		return hp;
-	}*/
-	/*
-	private static Integer setStat(Player player, int amount, Stat stat) {
-		//PersistentDataContainer pdc = player.getPersistentDataContainer();
-		
-		if (stat.equals(Stat.NULL)) return 0;
-		
-		//pdc.set(stat.key, PersistentDataType.INTEGER, amount);
-		
-		return amount;
-	}*/
-	
+	// Player info is stored in the statBoost class, so we dont need to seperate it player-by-player
 	ArrayList<statBoost> boosts = new ArrayList<statBoost>();
+	// stores the last used stat id. Starts on -1 so that the first id is 0;
 	Long lastID = -1L;
+	
+	// Adds a stat boost
 	public Long addStat(Player player, int amount, Stat stat, Long expires, String booster, boolean isPassive) {
 		Long id = lastID + 1L;
 		boosts.add(new statBoost(amount, expires, id, stat, player, booster, isPassive));
@@ -137,6 +129,7 @@ public class Stats implements Runnable {
 		return id;
 	}
 	
+	// adds an array of stats under the same ID. This allows for a stat boost to provide multiple bonuses.
 	public Long addStatMultiple(Player player, int amount, Stat[] stats, Long expires, String booster, boolean isPassive) {
 		Long id = lastID + 1L;
 		for (Stat stat : stats) {
@@ -148,6 +141,7 @@ public class Stats implements Runnable {
 		return id;
 	}
 	
+	//Disables a stat.
 	public void disableStat(Long id) {
 		if (id == null) return;
 		for (int i = 0; i < boosts.size(); i++) {
@@ -157,7 +151,7 @@ public class Stats implements Runnable {
 			}
 		}
 	}
-	
+	// Adds up all of the boosts which a player has
 	public void recalculateBoosts() {
 		for (Stat stat : Stat.values()) for (Player player : Bukkit.getOnlinePlayers()) {
 			stat.Reset(player);
@@ -166,6 +160,7 @@ public class Stats implements Runnable {
 		}
 	}
 	
+	// Gets the amount of boost that a player should have
 	int countBoosts(Stat stat, Player player) {
 		checkValidBoosts();
 		
@@ -178,6 +173,7 @@ public class Stats implements Runnable {
 		return i;
 	}
 	
+	// Checks if there are any expired boosts
 	public void checkValidBoosts() {
 		for (int i = 0; i < boosts.size(); i++) {
 			statBoost boost = boosts.get(i);

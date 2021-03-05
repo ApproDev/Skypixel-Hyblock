@@ -19,7 +19,7 @@ public class CustomWeaponsEventManager implements Listener {
 		this.main = main;
 	}
 	
-	@EventHandler
+	@EventHandler // Held item specific stat boosts
 	public void onRightClick(PlayerInteractEvent event) {
 		if (!event.getHand().equals(EquipmentSlot.OFF_HAND)) return;
 		Player player = event.getPlayer();

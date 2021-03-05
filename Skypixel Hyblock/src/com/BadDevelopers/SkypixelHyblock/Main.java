@@ -81,6 +81,8 @@ public class Main extends JavaPlugin {
     	});
     }
     
+    
+    //Sets the executor and TabCompletor for commands
     private void initCommand(com.BadDevelopers.SkypixelHyblock.Command command) {
     	PluginCommand pc = this.getCommand(command.name);
     	
@@ -88,6 +90,8 @@ public class Main extends JavaPlugin {
     	pc.setTabCompleter(command.completer);
     }
     
+    //Should register a custom enchant, but I removed functionality for that as I couldn't get it to work
+    @Deprecated
     void registerEnchant(Enchantment ench) {
             try {
                 Field f = Enchantment.class.getDeclaredField("acceptingNew");
@@ -108,13 +112,15 @@ public class Main extends JavaPlugin {
         
     }
     
-    public TerrainGeneration gen = new TerrainGeneration(this);
     
+    
+    public TerrainGeneration gen = new TerrainGeneration(this);
+    //helps the server use a custom terrain gen
     @Override
 	public ChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
     	return gen;
     }
-    
+    //A simple way to do reflection
     public static Object getPrivateField(String fieldName, Class<?> clazz, Object object)
     {
         Field field;
