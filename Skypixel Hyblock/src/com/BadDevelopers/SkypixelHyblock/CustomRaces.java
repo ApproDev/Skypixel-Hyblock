@@ -160,6 +160,7 @@ public class CustomRaces implements Runnable, Listener {
 		case DRAGON:
 			eye = player.getEyeLocation();
 			loc = rayTrace(eye, eye.getDirection(), 10, player);
+			if (loc == null) return;
 			AreaEffectCloud ec = (AreaEffectCloud) loc.getWorld().spawnEntity(loc, EntityType.AREA_EFFECT_CLOUD);
 			ec.setBasePotionData(new PotionData(PotionType.INSTANT_DAMAGE));
 			ec.setParticle(Particle.PORTAL);
@@ -168,6 +169,7 @@ public class CustomRaces implements Runnable, Listener {
 		case ENDERMAN:
 			eye = player.getEyeLocation();
 			loc = rayTrace(eye, eye.getDirection(), 40, player);
+			if (loc == null) return;
 			//if (!loc.getWorld().getBlockAt(loc).getType().isAir()) return;
 			player.teleport(loc.setDirection(eye.getDirection()));
 			sound = Sound.ENTITY_ENDERMAN_TELEPORT;
@@ -251,7 +253,12 @@ public class CustomRaces implements Runnable, Listener {
 				.rayTrace(start, direction, distance, 
 						FluidCollisionMode.ALWAYS, true, 0.1d, predicate);
 		
-		return result.getHitPosition().toLocation(world).setDirection(direction);
+		if (result == null) return null;
+		
+		return result
+				.getHitPosition()
+				.toLocation(world)
+				.setDirection(direction);
 	}
 	
 	public enum Race {
@@ -372,12 +379,14 @@ public class CustomRaces implements Runnable, Listener {
 						if (!race.canTouchWater) player.damage(1);
 						if (!race.canSwim) player.setVelocity(player.getVelocity().add(new Vector(0, -0.1, 0)));
 				}
+			
+			
+				if (race.equals(Race.CHICKEN) && player.getFallDistance() > 2 && !player.isSneaking())
+					player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 20, 0));
+				else if (race.equals(Race.CAT)) player.setFallDistance(-20f);
 			}
 			
-			if (race.equals(Race.CHICKEN) && player.getFallDistance() > 2 && !player.isSneaking())
-				player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 20, 0));
-			else if (race.equals(Race.CAT)) player.setFallDistance(-20f);
-		});
+			});
 		
 		for (int i = 0; i < homingArrows.size(); i++) {
 			HomingArrow homingArrow = homingArrows.get(i);
