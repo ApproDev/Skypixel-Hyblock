@@ -12,7 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.BadDevelopers.SkypixelHyblock.Main;
 import com.BadDevelopers.SkypixelHyblock.Skills.Skills.Skill;
 
-public class SkillsHandler implements Listener{
+public class SkillsHandler implements Listener {
 
 	Main main = JavaPlugin.getPlugin(Main.class);
 	

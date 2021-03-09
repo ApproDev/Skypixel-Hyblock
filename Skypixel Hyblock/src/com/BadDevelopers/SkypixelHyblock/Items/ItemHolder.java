@@ -48,17 +48,18 @@ public interface ItemHolder {
 		STONE_SWORD(Material.STONE_SWORD, Category.WEAPONS),
 		IRON_SWORD(Material.IRON_SWORD, Category.WEAPONS),
 		DIAMOND_SWORD(Material.DIAMOND_SWORD, Category.WEAPONS),
-		
-		//hyblock weapons
-		SPEED_SWORD(Material.GOLDEN_SWORD, "Rogue Sword", Category.WEAPONS),
+		NETHERITE_SWORD(Material.NETHERITE_SWORD, Category.WEAPONS),
+		BOW(Material.BOW, Category.WEAPONS),
+		TRIDENT(Material.TRIDENT, Category.WEAPONS),
 		
 		//vanilla tools
 		WOOD_PICK(Material.WOODEN_PICKAXE, Category.TOOLS),
 		STONE_PICK(Material.STONE_PICKAXE, Category.TOOLS),
 		IRON_PICK(Material.IRON_PICKAXE, Category.TOOLS),
 		DIAMOND_PICK(Material.DIAMOND_PICKAXE, Category.TOOLS),
-		WOOD_AXE(Material.WOODEN_AXE, Category.TOOLS),
+		NETHERITE_PICK(Material.NETHERITE_PICKAXE, Category.TOOLS),
 		
+		WOOD_AXE(Material.WOODEN_AXE, Category.TOOLS),
 		
 		//vanilla armour sets
 		IRON_HELM(Material.IRON_HELMET, Category.ARMOUR),
@@ -76,6 +77,14 @@ public interface ItemHolder {
 		REDSTONE_CHEST(Material.LEATHER_CHESTPLATE, Color.fromRGB(175, 0, 0), ChatColor.DARK_RED+"Redstone Chestplate", Category.ARMOUR, false, 25),
 		REDSTONE_LEGS(Material.LEATHER_LEGGINGS, Color.fromRGB(175, 0, 0), ChatColor.DARK_RED+"Redstone Leggings", Category.ARMOUR, false, 25),
 		REDSTONE_BOOTS(Material.LEATHER_BOOTS, Color.fromRGB(175, 0, 0), ChatColor.DARK_RED+"Redstone Boots", Category.ARMOUR, false, 25),
+		
+		//hyblock weapons
+		SPEED_SWORD(Material.GOLDEN_SWORD, "Rogue Sword", Category.WEAPONS),
+		KATANA(Material.IRON_SWORD, "Katana", Category.WEAPONS),
+		BOKKEN(Material.WOODEN_SWORD, "Bokken", Category.WEAPONS),
+		DAGGER(Material.IRON_SWORD, "Dagger", Category.WEAPONS),
+		ELUCIDATOR(Material.NETHERITE_SWORD, "The Elucidator", Category.WEAPONS),
+				
 		
 		//materials
 		ENCHANTED_DIAMOND(Material.DIAMOND, "Enchanted Diamond", Category.MATERIAL, false),
@@ -136,7 +145,7 @@ public interface ItemHolder {
 		
 		
 		//special talismans
-		JOSH_TALISMAN("http://textures.minecraft.net/texture/46f06001bf95367c6a9e0717e4d2d41eb5a4c34d49f619ee12ebb88bc18bf837", "Josh Talisman", Category.TALISMAN, "josh", 7, false, new Stat[] {Stat.Health}, new Integer[] {20}),
+		JOSH_TALISMAN("http://textures.minecraft.net/texture/46f06001bf95367c6a9e0717e4d2d41eb5a4c34d49f619ee12ebb88bc18bf837", "Josh Talisman", Category.TALISMAN, "josh", 7, false, new Stat[] {Stat.Intelligence}, new Integer[] {20}),
 		SEAN_TALISMAN("http://textures.minecraft.net/texture/5d3813d24a633062df28c5fb38ae8de808fe8da0ebc51e03b4df741da386dafb", "Sean Talisman", Category.TALISMAN, "sean", 7, false, new Stat[] {Stat.Defence}, new Integer[] {50}),
 		
 		NULL(Material.AIR, "null", Category.NONE, true);		
@@ -154,6 +163,7 @@ public interface ItemHolder {
 		Stat[] stats = new Stat [0];
 		Integer[] statValues = new Integer [0];
 		String skinURL;
+		Long cost = -1L;
 		
 		//talismans
 		Item(Material mat, String name, Category cat, String talismanFamily, Integer rarity, boolean looksEnchanted, Stat[] stats, Integer[] statValues){
@@ -201,7 +211,7 @@ public interface ItemHolder {
 			this( mat, name, Category.NONE, false);
 		}
 		Item(Material mat, Category cat) {
-			this( mat, mat.getKey().getKey(), cat, true);
+			this( mat, format(mat.name()), cat, true);
 		}
 
 		public void giveItem(Player p, int amount, Main main) {
@@ -245,12 +255,25 @@ public interface ItemHolder {
 			return is;
 		}
 		
+		public static String format(String s) { // Getting a user friendly version of the name
+			
+			s = s.replace('_', ' ');
+			
+			s = s.strip().toLowerCase();
+			
+			String s2 = Character.toString(s.charAt(0));
+			
+			s = s.replaceFirst(s2, s2.toUpperCase());
+			
+			return s;
+		}
+		
+		
 		public static boolean isSkyItem(ItemStack is) {
 			if (is == null) return false;
 			ItemMeta im = is.getItemMeta();
 			if (im == null) return false;
 			PersistentDataContainer pds = im.getPersistentDataContainer();
-			if (pds == null) return false;
 			if (pds.has(new NamespacedKey(getInstance(), "id"), PersistentDataType.INTEGER)) return true;
 			else return false;
 		}

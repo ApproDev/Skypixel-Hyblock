@@ -11,7 +11,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 
+import com.BadDevelopers.SkypixelHyblock.Main;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 
@@ -44,6 +46,7 @@ public class CustomPlayer extends EntityPlayer implements Listener {
 		this.setYawPitch(0, 0);
 		this.playerConnection = new CustomPlayerConnection(server, new CustomNetworkManager(EnumProtocolDirection.CLIENTBOUND), this);
 		
+		Bukkit.getPluginManager().registerEvents(this, JavaPlugin.getPlugin(Main.class));
 		//((CraftWorld)loc.getWorld()).getHandle().addEntity(this);
 		
 		
@@ -70,8 +73,8 @@ public class CustomPlayer extends EntityPlayer implements Listener {
 	
 	public void sendPlayerRemoveInfo(Player player) {
 		PlayerConnection connection = ((CraftPlayer) player).getHandle().playerConnection;
+		connection.sendPacket(new PacketPlayOutEntityDestroy(this.getId()));
         connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, this));
-        connection.sendPacket(new PacketPlayOutEntityDestroy(this.getId()));
 	}
 	
 	public void sendFakePlayerInfo(Player player) {
