@@ -32,7 +32,7 @@ public class Skills {
 		Skill(NamespacedKey key){
 			this.key = key;
 		}
-				
+		
 		//lets plugin get skill exp
 		public Integer getSkill(Player player) {
 			

@@ -21,9 +21,7 @@ public class OuterCraftingUI extends InvHandler {
 	void invSpecificEvents(InventoryClickEvent e) {
 		if (e.getCurrentItem().getType().equals(Material.GRAY_STAINED_GLASS_PANE)) return;
 		
-		CraftingUI ui = new CraftingUI(e.getWhoClicked(), main);
-		
-		ui.type = RecipeType.valueOf(e.getSlot());
+		CraftingUI ui = new CraftingUI(e.getWhoClicked(), main, RecipeType.valueOf(e.getSlot()));
 		
 		ui.initItems();
 		

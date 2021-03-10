@@ -10,7 +10,9 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitScheduler;
 
+import com.BadDevelopers.SkypixelHyblock.CustomRaces.Race;
 import com.BadDevelopers.SkypixelHyblock.Currency.Currency;
 import com.BadDevelopers.SkypixelHyblock.Currency.CurrencyCommand;
 import com.BadDevelopers.SkypixelHyblock.Currency.CurrencyEventManager;
@@ -25,6 +27,7 @@ import com.BadDevelopers.SkypixelHyblock.Items.TalismanHandler;
 import com.BadDevelopers.SkypixelHyblock.Reforges.ReforgeHolder;
 import com.BadDevelopers.SkypixelHyblock.Skills.SkillsCommand;
 import com.BadDevelopers.SkypixelHyblock.Skills.SkillsHandler;
+import com.BadDevelopers.SkypixelHyblock.UI.RaceUI;
 import com.BadDevelopers.SkypixelHyblock.UI.UIEventManager;
 
 public class Main extends JavaPlugin {
@@ -38,6 +41,8 @@ public class Main extends JavaPlugin {
 	public static Stats stats;
 	
 	public static String prefix = ChatColor.AQUA+"["+ChatColor.GOLD+"Hyblock"+ChatColor.AQUA+"] ";
+	
+	public CustomRaces race;
 	
     @Override
     public void onEnable() {
@@ -55,6 +60,7 @@ public class Main extends JavaPlugin {
     	initCommand(new SummonCommand(this));
     	initCommand(new RideCommand());
     	
+    	race = new CustomRaces(this);
     	
     	PluginManager pm = Bukkit.getPluginManager();
     	pm.registerEvents(new CurrencyEventManager(), this);
@@ -64,21 +70,42 @@ public class Main extends JavaPlugin {
     	pm.registerEvents(new CustomWeaponsEventManager(this), this);
     	pm.registerEvents(new UIEventManager(this), this);
     	pm.registerEvents(gen, this);
+
+    	pm.registerEvents(race, this);
+    	
+    	BukkitScheduler sch = Bukkit.getServer().getScheduler();
+    	
+    	sch.runTaskTimer(this, stats, 0, 1);
+    	
+    	sch.runTaskTimer(this, new ArmourHandler(this), 1, 1);
+
     	pm.registerEvents(new ReforgeHolder(this), this);
     	
+    	sch.runTaskTimer(this, scoreboard, 0, 5);
     	
-    	Bukkit.getServer().getScheduler().runTaskTimer(this, stats, 0, 1);
+    	sch.runTaskTimer(this, new TalismanHandler(), 0, 1*20);
     	
-    	Bukkit.getServer().getScheduler().runTaskTimer(this, new ArmourHandler(this), 1, 1);
+    	sch.runTaskTimer(this, race, 0, 5);
     	
-    	Bukkit.getServer().getScheduler().runTaskTimer(this, scoreboard, 0, 5);
+    	Main main = this;
+    	Bukkit.getServer().getScheduler().runTaskTimer(main, new Runnable() {
+			@Override
+			public void run() {
+				Bukkit.getOnlinePlayers().forEach(
+						player -> {
+							Race race = Race.getRace(player, main);
+							if (race == null) {
+								Bukkit.getPluginManager().registerEvents(new RaceUI(player, main), main);
+								}
+							else race.applyStats(player, main);
+							
+						});
+			}}, 0, 200);
     	
-    	Bukkit.getServer().getScheduler().runTaskTimer(this, new TalismanHandler(this), 0, 1*20);
     	
     	Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() { // clear recipes on server start, as on load isnt possible
 			@Override
 			public void run() {
-				
 				Bukkit.clearRecipes();
 				//for (World world : Bukkit.getWorlds()) gen.onWorldLoad(new WorldLoadEvent(world));
 			}
@@ -123,24 +150,15 @@ public class Main extends JavaPlugin {
     {
         Field field;
         Object o = null;
-
         try
         {
             field = clazz.getDeclaredField(fieldName);
 
             field.setAccessible(true);
-
+            
             o = field.get(object);
         }
-        catch(NoSuchFieldException e)
-        {
-            e.printStackTrace();
-        }
-        catch(IllegalAccessException e)
-        {
-            e.printStackTrace();
-        }
-
+        catch(NoSuchFieldException | IllegalAccessException e) { e.printStackTrace();}
         return o;
     }
 }

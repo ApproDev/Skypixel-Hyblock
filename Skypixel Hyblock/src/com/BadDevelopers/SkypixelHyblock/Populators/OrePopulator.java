@@ -39,10 +39,11 @@ public class OrePopulator extends BlockPopulator {
 					}
 					
 					else if (noise < 0.3) {
-						if (noise < 0.1) mat = Material.IRON_ORE;
+						if (noise < 0.25) mat = Material.IRON_ORE;
 						
 						else mat = Material.COAL_ORE;
 					}
+					else if (noise < 0.35) mat = Material.LAPIS_ORE;
 					
 					chunk.getBlock(x, y, z).setType(mat, false);
 				}

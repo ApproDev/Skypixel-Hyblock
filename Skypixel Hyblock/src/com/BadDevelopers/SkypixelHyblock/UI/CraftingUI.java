@@ -21,15 +21,17 @@ public class CraftingUI extends InvHandler {
 	
 	public RecipeType type;
 
-	public CraftingUI(HumanEntity player, Main main) {
+	public CraftingUI(HumanEntity player, Main main, RecipeType type) {
 		super(player, main);
+		this.type = type;
 	}
 
 	@Override
 	void invSpecificEvents(InventoryClickEvent e) {
 		if (e.getCurrentItem().getType().equals(Material.GRAY_STAINED_GLASS_PANE)) return;
 		
-		Recipe recipe = Recipe.valueOf(e.getRawSlot());
+		Recipe recipe = Recipe.valueOf(e.getSlot()); // The recipes are entered by Recipe#values so they should be in order of the slot number
+
 		HumanEntity player = e.getWhoClicked();
 		PlayerInventory pi = player.getInventory();
 		HashMap<Item, Integer> stuff = new HashMap<Item, Integer>();
@@ -64,8 +66,8 @@ public class CraftingUI extends InvHandler {
 		pi.addItem(recipe.out.getItem(recipe.outQ, main));
 	}
 	
-	
-	public void initItems() {
+	// Adds the items to the UI
+	public void initItems() { 
     	for (int slot = 0; slot < type.involved.length; slot++) {
     		Recipe recipe = type.involved[slot];
     		Item item = recipe.out;

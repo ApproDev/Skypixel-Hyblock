@@ -21,7 +21,9 @@ public class CustomWeaponsEventManager implements Listener {
 	
 	@EventHandler
 	public void onRightClick(PlayerInteractEvent event) {
-		if (!event.getHand().equals(EquipmentSlot.OFF_HAND)) return;
+		EquipmentSlot hand = event.getHand();
+		if(hand == null) return;
+		if (!hand.equals(EquipmentSlot.OFF_HAND)) return;
 		Player player = event.getPlayer();
 		ItemStack is = player.getInventory().getItemInMainHand();
 		if (is == null) return;
