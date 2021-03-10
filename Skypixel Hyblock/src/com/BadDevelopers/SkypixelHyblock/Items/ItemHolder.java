@@ -23,7 +23,6 @@ import com.BadDevelopers.SkypixelHyblock.Enchantments.Glow;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 
-// All items & various functions concerning said items
 public interface ItemHolder {
 	public enum Item {
 		
@@ -32,9 +31,10 @@ public interface ItemHolder {
 		
 		STONE(Material.STONE, Category.BLOCKS),
 		
-
+		
 		//vanilla blocks
 		WORKBENCH(Material.CRAFTING_TABLE, "Workbench", Category.BLOCKS, true),
+		ANVIL(Material.ANVIL, "Anvil", Category.BLOCKS, true),
 		DIRT(Material.DIRT, "Dirt", Category.BLOCKS, true),		
 
     
@@ -48,12 +48,19 @@ public interface ItemHolder {
 		STONE_SWORD(Material.STONE_SWORD, Category.WEAPONS),
 		IRON_SWORD(Material.IRON_SWORD, Category.WEAPONS),
 		DIAMOND_SWORD(Material.DIAMOND_SWORD, Category.WEAPONS),
+
 		NETHERITE_SWORD(Material.NETHERITE_SWORD, Category.WEAPONS),
 		BOW(Material.BOW, Category.WEAPONS),
 		TRIDENT(Material.TRIDENT, Category.WEAPONS),
+
+		
+		//hyblock weapons
+		SPEED_SWORD(Material.GOLDEN_SWORD, "Rogue Sword", Category.WEAPONS),
+		BONEMERANG(Material.BONE, "Bonemerang", Category.WEAPONS, true),
+
 		
 		//vanilla tools
-		WOOD_PICK(Material.WOODEN_PICKAXE, Category.TOOLS),
+		WOOD_PICK(Material.WOODEN_PICKAXE, "Wooden Pickaxe", Category.TOOLS),
 		STONE_PICK(Material.STONE_PICKAXE, Category.TOOLS),
 		IRON_PICK(Material.IRON_PICKAXE, Category.TOOLS),
 		DIAMOND_PICK(Material.DIAMOND_PICKAXE, Category.TOOLS),
@@ -66,6 +73,16 @@ public interface ItemHolder {
 		IRON_CHEST(Material.IRON_CHESTPLATE, Category.ARMOUR),
 		IRON_LEGS(Material.IRON_LEGGINGS, Category.ARMOUR),
 		IRON_BOOTS(Material.IRON_BOOTS, Category.ARMOUR),
+		
+		DIAMOND_HELM(Material.DIAMOND_HELMET, "Diamond Helmet", Category.ARMOUR),
+		DIAMOND_CHEST(Material.DIAMOND_CHESTPLATE, "Diamond Chestplate", Category.ARMOUR),
+		DIAMOND_LEGS(Material.DIAMOND_LEGGINGS, "Diamond Leggings", Category.ARMOUR),
+		DIAMOND_BOOTS(Material.DIAMOND_BOOTS, "Diamond Boots", Category.ARMOUR),
+		
+		NETHERITE_HELM(Material.NETHERITE_HELMET, "Netherite Helmet", Category.ARMOUR),
+		NETHERITE_CHEST(Material.NETHERITE_CHESTPLATE, "Netherite Chestplate", Category.ARMOUR),
+		NETHERITE_LEGS(Material.NETHERITE_LEGGINGS, "Netherite Leggings", Category.ARMOUR),
+		NETHERITE_BOOTS(Material.NETHERITE_BOOTS, "Netherite Boots", Category.ARMOUR),
 		
 		//hyblock armour sets
 		LAPIS_HELM(Material.LEATHER_HELMET, Color.fromRGB(0, 0, 255), ChatColor.AQUA+"Lapis Helmet", Category.ARMOUR, false, 25),
@@ -87,8 +104,12 @@ public interface ItemHolder {
 				
 		
 		//materials
-		ENCHANTED_DIAMOND(Material.DIAMOND, "Enchanted Diamond", Category.MATERIAL, false),
-		STICK(Material.STICK, Category.MATERIAL),
+		ENCHANTED_DIAMOND(Material.DIAMOND, "Enchanted Diamond", Category.MATERIAL, true),
+		STICK(Material.STICK, "Stick", Category.MATERIAL),
+		NETHERITE_SCRAP(Material.NETHERITE_SCRAP, "Netherite Scrap", Category.MATERIAL),
+		NETHERITE_INGOT(Material.NETHERITE_INGOT, "Netherite Ingot", Category.MATERIAL),
+		GOLD_INGOT(Material.GOLD_INGOT, "Gold Ingot", Category.MATERIAL),
+		DIAMOND(Material.DIAMOND, "Diamond", Category.MATERIAL),
 
 		//talismans 
 		SHINY_YELLOW_ROCK(Material.GOLD_NUGGET, "Shiny yellow Rock", Category.TALISMAN, "ring_of_love", 1, true, new Stat[] {}, new Integer[] {}),
@@ -189,11 +210,15 @@ public interface ItemHolder {
 			this.statValues = statValues;
 		}
 		
-		// Leather armour
 		Item(Material mat, Color colour, String name, Category cat, boolean isVanilla, Integer armour) {
 			this(mat, name, cat, isVanilla);
 			this.colour = colour;
 			this.armour = armour;
+		}
+		
+		Item(Material mat, String name, Category cat, boolean looksEnchanted) {
+			this(mat, name, cat, oreDict);
+			this.looksEnchanted = looksEnchanted;
 		}
 		
 		Item(Material mat, String name, Category cat, boolean isVanilla) {
@@ -203,6 +228,9 @@ public interface ItemHolder {
 			this.isVanilla = isVanilla;
 		}
 		
+		Item(Material mat, String name, Category cat, boolean isVanilla) {
+			this( mat, name, cat, isVanilla);
+		}
 		Item(Material mat, String name, Category cat) {
 			this( mat, name, cat, false);
 		}
@@ -211,7 +239,17 @@ public interface ItemHolder {
 			this( mat, name, Category.NONE, false);
 		}
 		Item(Material mat, Category cat) {
+
 			this( mat, format(mat.name()), cat, true);
+		}
+		
+		Item(Material mat, String name, Category cat) {
+			this(mat, name, cat, true);
+		}
+
+		Item(Material mat, Category cat) {
+			this(mat, mat.name(), cat);
+
 		}
 
 		public void giveItem(Player p, int amount, Main main) {
@@ -320,6 +358,7 @@ public interface ItemHolder {
 			} 
 		
 	}
+	
 	
 	
 	public enum Category {

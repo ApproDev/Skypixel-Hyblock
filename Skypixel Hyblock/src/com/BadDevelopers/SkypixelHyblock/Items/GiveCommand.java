@@ -12,7 +12,6 @@ import org.bukkit.entity.Player;
 import com.BadDevelopers.SkypixelHyblock.Main;
 import com.BadDevelopers.SkypixelHyblock.Items.ItemHolder.Item;
 
-// Gives you a custom item
 public class GiveCommand extends com.BadDevelopers.SkypixelHyblock.Command {
 	
 	Main main;

@@ -31,8 +31,6 @@ import com.BadDevelopers.SkypixelHyblock.Populators.TreePopulator;
 
 import net.minecraft.server.v1_16_R3.BlockPosition;
 
-
-// I'm not commenting this
 public class TerrainGeneration extends ChunkGenerator implements Listener {
 	
 	@Override

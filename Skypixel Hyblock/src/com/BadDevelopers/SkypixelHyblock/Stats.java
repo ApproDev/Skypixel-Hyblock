@@ -3,9 +3,12 @@ package com.BadDevelopers.SkypixelHyblock;
 import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
+import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Player;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.BadDevelopers.SkypixelHyblock.Stats.Stat;
@@ -20,11 +23,52 @@ public class Stats implements Runnable {
  * IQ
  * 
  */
-	//This class is instanciated outside of a static context, so this doesn't return null
+	
 	static Main main = JavaPlugin.getPlugin(Main.class);
 	
+	//lets plugin get mana value
+	public Double getMana(Player player) {
+		
+		PersistentDataContainer pdc = player.getPersistentDataContainer();
+		
+		Double mana = pdc.get(new NamespacedKey(main, "mana"), PersistentDataType.DOUBLE);
+		
+		if (mana == null) return setMana(player, 0D);
+		
+		return mana;
+	}
+
+	//lets plugin set mana value
+	public Double setMana(Player player, Double newValue) {
+		
+		PersistentDataContainer pdc = player.getPersistentDataContainer();
+		
+		pdc.set(new NamespacedKey(main, "mana"), PersistentDataType.DOUBLE, newValue);
+		
+		return newValue;
+	}
 	
-	//If you want to add a new stat, add it here and everything should work just fine
+	//manages mana regen
+	public void updateMana() {
+		
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			
+			Double maxMana = getStat(player, Stat.Intelligence);
+			
+			Double manaNeededToAdd = maxMana / 2000;
+			
+			Double newManaValue = getMana(player) + manaNeededToAdd;
+			
+			if (newManaValue > maxMana) {newManaValue = maxMana;}
+			
+			setMana(player, newManaValue);
+			
+		}
+		
+	}
+	
+	
+	
 	public enum Stat {
 		Health(5, Attribute.GENERIC_MAX_HEALTH, 'h'),
 		Defence(100, Attribute.GENERIC_ARMOR, 'd'),
@@ -43,13 +87,12 @@ public class Stats implements Runnable {
 			this.at = at;
 			this.sym = sym;
 			this.coeff = coeff;
-		} // not all stats have an attribute, so there needs to be another method
+		}
 		Stat(double coeff, char sym) {
 			this.sym = sym;
 			this.coeff = coeff;
 		}
 		
-		//uses magic values as I couldn't find another way
 		double getDefaultAttributeValue() {
 			switch(this) {
 			case Health:
@@ -62,11 +105,13 @@ public class Stats implements Runnable {
 				return 0.1; //0.11500000208
 			case Strength:
 				return 1;
+			case Intelligence:
+				return 100;
 			default:
 				return 0;
 			}
 		}
-		// Resets a player's stats. This is used everytime stats are refreshed, so there is no need for it to be used outside of this class
+		
 		public void Reset(Player player) {
 			if (this.at == null) return;
 			
@@ -75,11 +120,6 @@ public class Stats implements Runnable {
 			ai.setBaseValue(getDefaultAttributeValue());
 		}
 		
-		/*This updates a player's stats.
-		 *NOTE: DO NOT USE THIS. If you wish to add to / take from a player's stats, use
-		 *Stats#addStat as if you update it directly, it will be reset very quickly by this class'
-		 *update cycle
-		*/
 		public void Update(Player player, int amount) {
 			
 			if (this.at == null) return;
@@ -92,7 +132,6 @@ public class Stats implements Runnable {
 		}
 	}
 	
-	// Allows you to check if a stat boost is present on a player
 	public boolean isReasonPresent(Player player, String string) {
 		for (statBoost boost : boosts) {
 			if (boost.booster.equals(string)) return true;
@@ -100,7 +139,6 @@ public class Stats implements Runnable {
 		return false;
 	}
 	
-	// Allows you to get one of a player's stats
 	public Double getStat(Player player, Stat stat) {
 		if (stat.equals(Stat.NULL)) return 0d;
 		
@@ -109,17 +147,35 @@ public class Stats implements Runnable {
 		return countBoosts(stat, player)+(stat.getDefaultAttributeValue()*stat.coeff);
 	}
 	
-	// Gets the stat as a round number
 	public Long getLongStat(Player player, Stat stat) {
 		return Math.round(getStat(player, stat));
 	}
 	
-	// Player info is stored in the statBoost class, so we dont need to seperate it player-by-player
-	ArrayList<statBoost> boosts = new ArrayList<statBoost>();
-	// stores the last used stat id. Starts on -1 so that the first id is 0;
-	Long lastID = -1L;
+	/*
+	public static Integer getStat(Player player, Stat stat) {
+		//PersistentDataContainer pdc = player.getPersistentDataContainer();
+		
+		if (stat.equals(Stat.NULL)) return 0;
+		
+		//Integer hp = pdc.get(stat.key, PersistentDataType.INTEGER);
+		
+		if (hp == null) return setStat(player, 100, stat);
+		
+		return hp;
+	}*/
+	/*
+	private static Integer setStat(Player player, int amount, Stat stat) {
+		//PersistentDataContainer pdc = player.getPersistentDataContainer();
+		
+		if (stat.equals(Stat.NULL)) return 0;
+		
+		//pdc.set(stat.key, PersistentDataType.INTEGER, amount);
+		
+		return amount;
+	}*/
 	
-	// Adds a stat boost
+	ArrayList<statBoost> boosts = new ArrayList<statBoost>();
+	Long lastID = -1L;
 	public Long addStat(Player player, int amount, Stat stat, Long expires, String booster, boolean isPassive) {
 		Long id = lastID + 1L;
 		boosts.add(new statBoost(amount, expires, id, stat, player, booster, isPassive));
@@ -129,7 +185,6 @@ public class Stats implements Runnable {
 		return id;
 	}
 	
-	// adds an array of stats under the same ID. This allows for a stat boost to provide multiple bonuses.
 	public Long addStatMultiple(Player player, int amount, Stat[] stats, Long expires, String booster, boolean isPassive) {
 		Long id = lastID + 1L;
 		for (Stat stat : stats) {
@@ -141,7 +196,6 @@ public class Stats implements Runnable {
 		return id;
 	}
 	
-	//Disables a stat.
 	public void disableStat(Long id) {
 		if (id == null) return;
 		for (int i = 0; i < boosts.size(); i++) {
@@ -151,7 +205,7 @@ public class Stats implements Runnable {
 			}
 		}
 	}
-	// Adds up all of the boosts which a player has
+	
 	public void recalculateBoosts() {
 		for (Stat stat : Stat.values()) for (Player player : Bukkit.getOnlinePlayers()) {
 			stat.Reset(player);
@@ -160,7 +214,6 @@ public class Stats implements Runnable {
 		}
 	}
 	
-	// Gets the amount of boost that a player should have
 	int countBoosts(Stat stat, Player player) {
 		checkValidBoosts();
 		
@@ -173,7 +226,6 @@ public class Stats implements Runnable {
 		return i;
 	}
 	
-	// Checks if there are any expired boosts
 	public void checkValidBoosts() {
 		for (int i = 0; i < boosts.size(); i++) {
 			statBoost boost = boosts.get(i);
@@ -186,8 +238,10 @@ public class Stats implements Runnable {
 
 	@Override
 	public void run() {
-		recalculateBoosts();
 		
+		updateMana();
+		recalculateBoosts();
+				
 	}
 	
 	

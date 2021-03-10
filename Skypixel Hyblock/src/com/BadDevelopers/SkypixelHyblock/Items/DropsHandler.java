@@ -14,7 +14,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.BadDevelopers.SkypixelHyblock.Main;
 
-// Whenever an item drops, convert it to our Item enum
 public class DropsHandler implements Listener {
 	
 	

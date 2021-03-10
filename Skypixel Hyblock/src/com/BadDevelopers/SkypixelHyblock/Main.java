@@ -24,6 +24,7 @@ import com.BadDevelopers.SkypixelHyblock.Items.CustomWeaponsEventManager;
 import com.BadDevelopers.SkypixelHyblock.Items.DropsHandler;
 import com.BadDevelopers.SkypixelHyblock.Items.GiveCommand;
 import com.BadDevelopers.SkypixelHyblock.Items.TalismanHandler;
+import com.BadDevelopers.SkypixelHyblock.Reforges.ReforgeHolder;
 import com.BadDevelopers.SkypixelHyblock.Skills.SkillsCommand;
 import com.BadDevelopers.SkypixelHyblock.Skills.SkillsHandler;
 import com.BadDevelopers.SkypixelHyblock.UI.RaceUI;
@@ -33,6 +34,7 @@ public class Main extends JavaPlugin {
 	
 	public Scoreboard scoreboard;
 	public Currency currency;
+	public ReforgeHolder reforgeholder;
 	
 	public static CustomEntitiesHelper customEntitiesHelper = new CustomEntitiesHelper();
 	
@@ -50,6 +52,7 @@ public class Main extends JavaPlugin {
     	scoreboard = new Scoreboard(this);
     	currency = new Currency(this);
     	stats = new Stats();
+    	reforgeholder = new ReforgeHolder(this);
     	
     	initCommand(new GiveCommand(this));
     	initCommand(new CurrencyCommand());
@@ -67,6 +70,7 @@ public class Main extends JavaPlugin {
     	pm.registerEvents(new CustomWeaponsEventManager(this), this);
     	pm.registerEvents(new UIEventManager(this), this);
     	pm.registerEvents(gen, this);
+
     	pm.registerEvents(race, this);
     	
     	BukkitScheduler sch = Bukkit.getServer().getScheduler();
@@ -74,6 +78,8 @@ public class Main extends JavaPlugin {
     	sch.runTaskTimer(this, stats, 0, 1);
     	
     	sch.runTaskTimer(this, new ArmourHandler(this), 1, 1);
+
+    	pm.registerEvents(new ReforgeHolder(this), this);
     	
     	sch.runTaskTimer(this, scoreboard, 0, 5);
     	
@@ -106,8 +112,6 @@ public class Main extends JavaPlugin {
     	});
     }
     
-    
-    //Sets the executor and TabCompletor for commands
     private void initCommand(com.BadDevelopers.SkypixelHyblock.Command command) {
     	PluginCommand pc = this.getCommand(command.name);
     	
@@ -115,8 +119,6 @@ public class Main extends JavaPlugin {
     	pc.setTabCompleter(command.completer);
     }
     
-    //Should register a custom enchant, but I removed functionality for that as I couldn't get it to work
-    @Deprecated
     void registerEnchant(Enchantment ench) {
             try {
                 Field f = Enchantment.class.getDeclaredField("acceptingNew");
@@ -138,12 +140,12 @@ public class Main extends JavaPlugin {
     }
     
     public TerrainGeneration gen = new TerrainGeneration(this);
-    //helps the server use a custom terrain gen
+    
     @Override
 	public ChunkGenerator getDefaultWorldGenerator(String worldName, String id) {
     	return gen;
     }
-    //A simple way to do reflection
+    
     public static Object getPrivateField(String fieldName, Class<?> clazz, Object object)
     {
         Field field;

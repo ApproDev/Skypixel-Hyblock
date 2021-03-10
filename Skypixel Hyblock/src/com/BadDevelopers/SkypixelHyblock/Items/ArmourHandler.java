@@ -21,7 +21,7 @@ public class ArmourHandler implements Runnable {
 	}
 	
 	
-	public enum ArmourSet { // Actual armour sets
+	public enum ArmourSet {
 		LAPIS(Item.LAPIS_HELM, Item.LAPIS_CHEST, Item.LAPIS_LEGS, Item.LAPIS_BOOTS, new Stat[] {Stat.Health}, 60),
 		
 		IRON(Item.IRON_HELM, Item.LAPIS_CHEST, Item.LAPIS_LEGS, Item.LAPIS_BOOTS),
@@ -45,13 +45,13 @@ public class ArmourHandler implements Runnable {
 			this.stats = stats;
 			this.amount = amount;
 		}
-		// checks if an Item is part of an armour set
+		
 		public static boolean isMember(Item item) {
 			for (ArmourSet set : values()) {
 				if (set.helmet.equals(item) || set.chestplate.equals(item) || set.legs.equals(item) || set.boots.equals(item)) return true;
 			}
 			return false;
-		} // Gets the armour set that an Item is a part of
+		}
 		public static ArmourSet getArmourSet(Item item) {
 			for (ArmourSet set : values()) {
 				if (set.helmet.equals(item) || set.chestplate.equals(item) || set.legs.equals(item) || set.boots.equals(item)) return set;
@@ -60,24 +60,22 @@ public class ArmourHandler implements Runnable {
 		}
 	}
 	private HashMap<UUID, ArmourSet> lastWearing = new HashMap<UUID, ArmourSet>();
-	
-	// The boost ID of the player's last worn armour
 	private HashMap<UUID, Long> boostID = new HashMap<UUID, Long>();
 	
 		@Override
-		public void run() { // 
+		public void run() {
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			PlayerInventory pi = player.getInventory();
 			ItemStack[] armour = pi.getArmorContents();
 			ArrayList<ArmourSet> itemlist = new ArrayList<ArmourSet>();
 			for (ItemStack piece : armour) if (Item.isSkyItem(piece)) {
-				Item item = Item.valueOf(piece); // Adds the armour's defence stat
+				Item item = Item.valueOf(piece);
 				itemlist.add(ArmourSet.getArmourSet(item));
 				Main.stats.addStat(player, item.armour, Stat.Defence, 60L, item.name, true);
 			}
 			
 			
-			// adds set specific stat boosts
+			
 			if (itemlist.size() != 4) checkStillWearing(player, ArmourSet.NULL);
 			else if (itemlist.get(0).equals(itemlist.get(1))
 			&& itemlist.get(1).equals(itemlist.get(2))

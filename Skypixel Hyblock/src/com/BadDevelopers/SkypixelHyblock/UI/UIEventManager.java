@@ -17,7 +17,7 @@ public class UIEventManager implements Listener {
 		this.main = main;
 	}
 	
-	@EventHandler // Creates the inventories
+	@EventHandler
 	public void InventoryEvent(InventoryOpenEvent event) {
 		if (!event.getInventory().getType().equals(InventoryType.WORKBENCH)) return;
 		//event.setCancelled(true);
