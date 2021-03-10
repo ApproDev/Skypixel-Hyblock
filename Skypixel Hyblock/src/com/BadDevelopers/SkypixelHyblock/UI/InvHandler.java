@@ -13,11 +13,10 @@ import org.bukkit.inventory.ItemStack;
 
 import com.BadDevelopers.SkypixelHyblock.Main;
 
-// Used for creating various GUIs
 public abstract class InvHandler implements Listener {
-	protected Inventory inv; // the inventory it creates
-	protected final HumanEntity player; // the player that it opens the inventory to
-	final ArrayList<Integer> allowableSlots = new ArrayList<Integer>(); // the slots which won't be auto cancelled
+	protected Inventory inv;
+	protected final HumanEntity player;
+	final ArrayList<Integer> allowableSlots = new ArrayList<Integer>();
 	Main main;
 
     public InvHandler(HumanEntity player, Main main) {
@@ -25,17 +24,13 @@ public abstract class InvHandler implements Listener {
         this.main = main;
         initGUI();
         initializeItems();
-        player.closeInventory(); // in case the player had a different inventory open
+        player.closeInventory();
 		player.openInventory(inv);
     }
-    // Creates the inventory. This is designed to be overridden, to change inventory size & title
-    public void initGUI() {inv = Bukkit.createInventory(null, 9, "Abstract");}
     
-    // Sets all slots except for allowableSlots to a grey glass pane
+    public void initGUI() {inv = Bukkit.createInventory(null, 9, "Abstract");}
     public void initializeItems() {
-    	for (int slot = 0; slot < inv.getSize(); slot++) 
-    		if (!allowableSlots.contains(slot)) 
-    			inv.setItem(slot, new ItemStack(Material.GRAY_STAINED_GLASS_PANE));
+    	for (int slot = 0; slot < inv.getSize(); slot++) if (!allowableSlots.contains(slot)) inv.setItem(slot, new ItemStack(Material.GRAY_STAINED_GLASS_PANE));
     }
 
     // Check for clicks on items
@@ -48,7 +43,7 @@ public abstract class InvHandler implements Listener {
         	return;
         }
         
-        invSpecificEvents(e); // Events specific to a particular inventory
+        invSpecificEvents(e);
 
         if (!allowableSlots.contains(e.getRawSlot())) e.setCancelled(true);
 
@@ -59,6 +54,5 @@ public abstract class InvHandler implements Listener {
         if (clickedItem.getType().equals(Material.AIR)) return;
     }
     
-    // Needs to be overriden inventory by inventory
     abstract void invSpecificEvents(InventoryClickEvent e);
 }

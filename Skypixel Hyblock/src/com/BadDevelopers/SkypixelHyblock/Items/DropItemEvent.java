@@ -6,7 +6,6 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.entity.EntityDropItemEvent;
 
-// Custom event
 public class DropItemEvent extends Event implements Cancellable {
 	
 	public Cancellable origin;

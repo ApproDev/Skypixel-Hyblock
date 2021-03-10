@@ -90,7 +90,7 @@ public class Scoreboard implements Runnable, Listener {
 		    }
 		    else {skillStat = "";}
 		    
-		    String allStats = ChatColor.GREEN + "" + skillStat + ChatColor.AQUA + "" + Main.stats.getLongStat(player, Stat.Intellegence) + " "+Stat.Intellegence.sym;
+		    String allStats = ChatColor.GREEN + "" + skillStat + ChatColor.AQUA + "" + (Main.stats.getMana(player)).intValue() + "/" + Main.stats.getLongStat(player, Stat.Intelligence) + " " + Stat.Intelligence.sym;
 		    
 		    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(allStats));
 		    

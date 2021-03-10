@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -141,6 +142,16 @@ public class SkillsHandler implements Listener{
 			applySkillEXP(player, 20, Skill.Fishing);
 			
 		}
+		
+	}
+	
+	//archery
+	@EventHandler
+	public void on(ProjectileLaunchEvent e) {
+		
+		if (!(e.getEntity().getShooter() instanceof Player)) {return;}
+		Player player = (Player) e.getEntity().getShooter();
+		applySkillEXP(player, 10, Skill.Archery);
 		
 	}
 

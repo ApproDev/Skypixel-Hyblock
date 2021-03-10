@@ -4,8 +4,23 @@ import com.BadDevelopers.SkypixelHyblock.Items.ItemHolder.Item;
 
 public class Crafting {
 	
-	public static enum RecipeType { // Types of recipe. Appears in OuterCraftingUI
-		WOODWORKING("Woodworking", Item.OAK_PLANKS, new Recipe[] {Recipe.OAK_LOG_TO_PLANKS}),
+	public static enum RecipeType {
+		WOODWORKING("Woodworking", Item.OAK_PLANKS, new Recipe[] {
+				Recipe.OAK_LOG_TO_PLANKS,
+				Recipe.OAK_PLANKS_TO_STICKS,
+				Recipe.STICKS_AND_PLANKS_TO_PICKAXE}),
+		
+		BLACKSMITHING("Blacksmithing", Item.ANVIL, new Recipe[] {
+				Recipe.SCRAP_AND_GOLD_TO_NETHERITE_INGOT,
+				Recipe.NETHERITE_INGOT_TO_NETHERITE_HELM,
+				Recipe.NETHERITE_INGOT_TO_NETHERITE_CHEST,
+				Recipe.NETHERITE_INGOT_TO_NETHERITE_LEGS,
+				Recipe.NETHERITE_INGOT_TO_NETHERITE_BOOTS,
+				Recipe.DIAMOND_TO_DIAMOND_HELM,
+				Recipe.DIAMOND_TO_DIAMOND_CHEST,
+				Recipe.DIAMOND_TO_DIAMOND_LEGS,
+				Recipe.DIAMOND_TO_DIAMOND_BOOTS}),
+		
 		STONEWORKING("Stoneworking", Item.STONE, new Recipe[] {});
 		
 		public String name;
@@ -24,9 +39,25 @@ public class Crafting {
 	}
 	
 	
-	public static enum Recipe { // Individual recipies. Used in CraftingUI
+	public static enum Recipe {
+		
+		SCRAP_AND_GOLD_TO_NETHERITE_INGOT(Item.NETHERITE_INGOT, 1, new Item[] {Item.NETHERITE_SCRAP, Item.GOLD_INGOT},  new Integer[] {4, 4}),
+		
+		NETHERITE_INGOT_TO_NETHERITE_HELM(Item.NETHERITE_HELM, 1 , new Item[] {Item.NETHERITE_INGOT}, new Integer[] {5}),
+		NETHERITE_INGOT_TO_NETHERITE_CHEST(Item.NETHERITE_CHEST, 1 , new Item[] {Item.NETHERITE_INGOT}, new Integer[] {8}),
+		NETHERITE_INGOT_TO_NETHERITE_LEGS(Item.NETHERITE_LEGS, 1 , new Item[] {Item.NETHERITE_INGOT}, new Integer[] {7}),
+		NETHERITE_INGOT_TO_NETHERITE_BOOTS(Item.NETHERITE_BOOTS, 1 , new Item[] {Item.NETHERITE_INGOT}, new Integer[] {4}),
+		
+		DIAMOND_TO_DIAMOND_HELM(Item.DIAMOND_HELM, 1 , new Item[] {Item.DIAMOND}, new Integer[] {5}),
+		DIAMOND_TO_DIAMOND_CHEST(Item.DIAMOND_CHEST, 1 , new Item[] {Item.DIAMOND}, new Integer[] {8}),
+		DIAMOND_TO_DIAMOND_LEGS(Item.DIAMOND_LEGS, 1 , new Item[] {Item.DIAMOND}, new Integer[] {7}),
+		DIAMOND_TO_DIAMOND_BOOTS(Item.DIAMOND_BOOTS, 1 , new Item[] {Item.DIAMOND}, new Integer[] {4}),
+		
+		
 		
 		OAK_LOG_TO_PLANKS(Item.OAK_PLANKS, 4, new Item[] {Item.OAK_LOG}, new Integer[] {1}),
+		OAK_PLANKS_TO_STICKS(Item.STICK, 4, new Item[] {Item.OAK_PLANKS}, new Integer[] {2}),
+		STICKS_AND_PLANKS_TO_PICKAXE(Item.WOOD_PICK, 1, new Item[] {Item.STICK, Item.OAK_PLANKS}, new Integer[] {2, 3}),
 		
 		NULL(Item.NULL, 0, new Item[] {Item.OAK_LOG}, new Integer[] {1});
 		
@@ -46,7 +77,7 @@ public class Crafting {
 			return values()[ordinal];
 		}
 		
-		// This behemouth is from when we were gonna make the vanilla crafting grid. We switched as I couldnt get it working
+		
 		/*@SuppressWarnings("unused")
 		public static Crafting getRecipe(Item[][] table) {
 			for (Recipe rec : values()) {
