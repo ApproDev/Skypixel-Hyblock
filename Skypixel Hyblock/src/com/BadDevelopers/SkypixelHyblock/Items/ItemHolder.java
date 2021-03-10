@@ -54,11 +54,6 @@ public interface ItemHolder {
 		TRIDENT(Material.TRIDENT, Category.WEAPONS),
 
 		
-		//hyblock weapons
-		SPEED_SWORD(Material.GOLDEN_SWORD, "Rogue Sword", Category.WEAPONS),
-		BONEMERANG(Material.BONE, "Bonemerang", Category.WEAPONS, true),
-
-		
 		//vanilla tools
 		WOOD_PICK(Material.WOODEN_PICKAXE, "Wooden Pickaxe", Category.TOOLS),
 		STONE_PICK(Material.STONE_PICKAXE, Category.TOOLS),
@@ -101,6 +96,7 @@ public interface ItemHolder {
 		BOKKEN(Material.WOODEN_SWORD, "Bokken", Category.WEAPONS),
 		DAGGER(Material.IRON_SWORD, "Dagger", Category.WEAPONS),
 		ELUCIDATOR(Material.NETHERITE_SWORD, "The Elucidator", Category.WEAPONS),
+		BONEMERANG(Material.BONE, "Bonemerang", Category.WEAPONS, true),
 				
 		
 		//materials
@@ -216,10 +212,6 @@ public interface ItemHolder {
 			this.armour = armour;
 		}
 		
-		Item(Material mat, String name, Category cat, boolean looksEnchanted) {
-			this(mat, name, cat, oreDict);
-			this.looksEnchanted = looksEnchanted;
-		}
 		
 		Item(Material mat, String name, Category cat, boolean isVanilla) {
 			this.mat = mat;
@@ -228,19 +220,8 @@ public interface ItemHolder {
 			this.isVanilla = isVanilla;
 		}
 		
-		Item(Material mat, String name, Category cat, boolean isVanilla) {
-			this( mat, name, cat, isVanilla);
-		}
-		Item(Material mat, String name, Category cat) {
-			this( mat, name, cat, false);
-		}
-		
 		Item(Material mat, String name) {
 			this( mat, name, Category.NONE, false);
-		}
-		Item(Material mat, Category cat) {
-
-			this( mat, format(mat.name()), cat, true);
 		}
 		
 		Item(Material mat, String name, Category cat) {

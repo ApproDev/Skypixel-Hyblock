@@ -83,7 +83,7 @@ public class Main extends JavaPlugin {
     	
     	sch.runTaskTimer(this, scoreboard, 0, 5);
     	
-    	sch.runTaskTimer(this, new TalismanHandler(), 0, 1*20);
+    	sch.runTaskTimer(this, new TalismanHandler(this), 0, 1*20);
     	
     	sch.runTaskTimer(this, race, 0, 5);
     	
