@@ -45,6 +45,10 @@ public class SkillsCommand extends Command{
 			quantity = Integer.parseInt(arg3[3]);
 		} catch (NumberFormatException UselessVariable) {return false;}
 		
+		if (Skill.valueOf(arg3[2]).getSkill(targetPlayer) == null) {
+			Skill.valueOf(arg3[2]).setSkill(targetPlayer, 0); 
+		}
+		
 		switch (arg3[1].toLowerCase()) {
 				
 			case "set":				

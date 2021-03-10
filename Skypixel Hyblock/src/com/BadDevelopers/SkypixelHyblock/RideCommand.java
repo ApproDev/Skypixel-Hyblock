@@ -5,8 +5,6 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
-
-//Just for fun
 public class RideCommand extends Command {
 
 	public RideCommand() {

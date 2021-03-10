@@ -23,7 +23,6 @@ import com.BadDevelopers.SkypixelHyblock.Enchantments.Glow;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 
-// All items & various functions concerning said items
 public interface ItemHolder {
 	public enum Item {
 		
@@ -32,16 +31,17 @@ public interface ItemHolder {
 		
 		STONE(Material.STONE, Category.BLOCKS),
 		
-
+		
 		//vanilla blocks
 		WORKBENCH(Material.CRAFTING_TABLE, "Workbench", Category.BLOCKS, true),
+		ANVIL(Material.ANVIL, "Anvil", Category.BLOCKS, true),
 		DIRT(Material.DIRT, "Dirt", Category.BLOCKS, true),		
 
     
-		OAK_LOG(Material.OAK_LOG, Category.BLOCKS),
-		SPRUCE_LOG(Material.SPRUCE_LOG, Category.BLOCKS),
-		DARK_LOG(Material.DARK_OAK_LOG, "Dark Log", Category.BLOCKS),
-		SHIT_LOG(Material.BIRCH_LOG, Category.BLOCKS),
+		OAK_LOG(Material.OAK_LOG, Category.BLOCKS, new oreDic[] {oreDic.LOG}),
+		SPRUCE_LOG(Material.SPRUCE_LOG, Category.BLOCKS, new oreDic[] {oreDic.LOG}),
+		DARK_LOG(Material.DARK_OAK_LOG, "Dark Log", Category.BLOCKS, new oreDic[] {oreDic.LOG}),
+		SHIT_LOG(Material.BIRCH_LOG, Category.BLOCKS, new oreDic[] {oreDic.LOG}),
 		
 		//vanilla weapons
 		WOOD_SWORD(Material.WOODEN_SWORD, Category.WEAPONS),
@@ -51,9 +51,10 @@ public interface ItemHolder {
 		
 		//hyblock weapons
 		SPEED_SWORD(Material.GOLDEN_SWORD, "Rogue Sword", Category.WEAPONS),
+		BONEMERANG(Material.BONE, "Bonemerang", Category.WEAPONS, new oreDic[0] , true),
 		
 		//vanilla tools
-		WOOD_PICK(Material.WOODEN_PICKAXE, Category.TOOLS),
+		WOOD_PICK(Material.WOODEN_PICKAXE, "Wooden Pickaxe", Category.TOOLS),
 		STONE_PICK(Material.STONE_PICKAXE, Category.TOOLS),
 		IRON_PICK(Material.IRON_PICKAXE, Category.TOOLS),
 		DIAMOND_PICK(Material.DIAMOND_PICKAXE, Category.TOOLS),
@@ -65,6 +66,16 @@ public interface ItemHolder {
 		IRON_CHEST(Material.IRON_CHESTPLATE, Category.ARMOUR),
 		IRON_LEGS(Material.IRON_LEGGINGS, Category.ARMOUR),
 		IRON_BOOTS(Material.IRON_BOOTS, Category.ARMOUR),
+		
+		DIAMOND_HELM(Material.DIAMOND_HELMET, "Diamond Helmet", Category.ARMOUR),
+		DIAMOND_CHEST(Material.DIAMOND_CHESTPLATE, "Diamond Chestplate", Category.ARMOUR),
+		DIAMOND_LEGS(Material.DIAMOND_LEGGINGS, "Diamond Leggings", Category.ARMOUR),
+		DIAMOND_BOOTS(Material.DIAMOND_BOOTS, "Diamond Boots", Category.ARMOUR),
+		
+		NETHERITE_HELM(Material.NETHERITE_HELMET, "Netherite Helmet", Category.ARMOUR),
+		NETHERITE_CHEST(Material.NETHERITE_CHESTPLATE, "Netherite Chestplate", Category.ARMOUR),
+		NETHERITE_LEGS(Material.NETHERITE_LEGGINGS, "Netherite Leggings", Category.ARMOUR),
+		NETHERITE_BOOTS(Material.NETHERITE_BOOTS, "Netherite Boots", Category.ARMOUR),
 		
 		//hyblock armour sets
 		LAPIS_HELM(Material.LEATHER_HELMET, Color.fromRGB(0, 0, 255), ChatColor.AQUA+"Lapis Helmet", Category.ARMOUR, false, 25),
@@ -78,8 +89,12 @@ public interface ItemHolder {
 		REDSTONE_BOOTS(Material.LEATHER_BOOTS, Color.fromRGB(175, 0, 0), ChatColor.DARK_RED+"Redstone Boots", Category.ARMOUR, false, 25),
 		
 		//materials
-		ENCHANTED_DIAMOND(Material.DIAMOND, "Enchanted Diamond", Category.MATERIAL, false),
-		STICK(Material.STICK, Category.MATERIAL),
+		ENCHANTED_DIAMOND(Material.DIAMOND, "Enchanted Diamond", Category.MATERIAL, new oreDic[0] , true),
+		STICK(Material.STICK, "Stick", Category.MATERIAL),
+		NETHERITE_SCRAP(Material.NETHERITE_SCRAP, "Netherite Scrap", Category.MATERIAL),
+		NETHERITE_INGOT(Material.NETHERITE_INGOT, "Netherite Ingot", Category.MATERIAL),
+		GOLD_INGOT(Material.GOLD_INGOT, "Gold Ingot", Category.MATERIAL),
+		DIAMOND(Material.DIAMOND, "Diamond", Category.MATERIAL),
 
 		//talismans 
 		SHINY_YELLOW_ROCK(Material.GOLD_NUGGET, "Shiny yellow Rock", Category.TALISMAN, "ring_of_love", 1, true, new Stat[] {}, new Integer[] {}),
@@ -136,7 +151,7 @@ public interface ItemHolder {
 		
 		
 		//special talismans
-		JOSH_TALISMAN("http://textures.minecraft.net/texture/46f06001bf95367c6a9e0717e4d2d41eb5a4c34d49f619ee12ebb88bc18bf837", "Josh Talisman", Category.TALISMAN, "josh", 7, false, new Stat[] {Stat.Health}, new Integer[] {20}),
+		JOSH_TALISMAN("http://textures.minecraft.net/texture/46f06001bf95367c6a9e0717e4d2d41eb5a4c34d49f619ee12ebb88bc18bf837", "Josh Talisman", Category.TALISMAN, "josh", 7, false, new Stat[] {Stat.Intelligence}, new Integer[] {20}),
 		SEAN_TALISMAN("http://textures.minecraft.net/texture/5d3813d24a633062df28c5fb38ae8de808fe8da0ebc51e03b4df741da386dafb", "Sean Talisman", Category.TALISMAN, "sean", 7, false, new Stat[] {Stat.Defence}, new Integer[] {50}),
 		
 		NULL(Material.AIR, "null", Category.NONE, true);		
@@ -145,6 +160,7 @@ public interface ItemHolder {
 		Material mat;
 		String name;
 		Category cat;
+		oreDic[] oreDict;
 		boolean isVanilla;
 		Color colour = null;
 		Integer armour = 0;
@@ -179,29 +195,45 @@ public interface ItemHolder {
 			this.statValues = statValues;
 		}
 		
-		// Leather armour
 		Item(Material mat, Color colour, String name, Category cat, boolean isVanilla, Integer armour) {
 			this(mat, name, cat, isVanilla);
 			this.colour = colour;
 			this.armour = armour;
 		}
 		
-		Item(Material mat, String name, Category cat, boolean isVanilla) {
+		Item(Material mat, String name, Category cat, oreDic[] oreDict, boolean looksEnchanted) {
+			this(mat, name, cat, oreDict);
+			this.looksEnchanted = looksEnchanted;
+		}
+		
+		Item(Material mat, String name, Category cat, boolean isVanilla, oreDic[] oreDict) {
 			this.mat = mat;
 			this.name = name;
 			this.cat = cat;
 			this.isVanilla = isVanilla;
+			this.oreDict = oreDict;
 		}
 		
+		Item(Material mat, String name, Category cat, boolean isVanilla) {
+			this( mat, name, cat, isVanilla, new oreDic[0] );
+		}
 		Item(Material mat, String name, Category cat) {
-			this( mat, name, cat, false);
+			this( mat, name, cat, false, new oreDic[0] );
 		}
 		
 		Item(Material mat, String name) {
-			this( mat, name, Category.NONE, false);
+			this( mat, name, Category.NONE, false, new oreDic[0] );
 		}
 		Item(Material mat, Category cat) {
-			this( mat, mat.getKey().getKey(), cat, true);
+			this( mat, mat.name(), cat, true, new oreDic[0] );
+		}
+		
+		Item(Material mat, String name, Category cat, oreDic[] oreDict) {
+			this(mat, name, cat, true);
+		}
+
+		Item(Material mat, Category cat, oreDic[] oreDict) {
+			this(mat, mat.name(), cat, oreDict);
 		}
 
 		public void giveItem(Player p, int amount, Main main) {
@@ -297,6 +329,13 @@ public interface ItemHolder {
 			} 
 		
 	}
+	
+	public enum oreDic {
+		LOG,
+		STONE,
+		COBBLESTONE
+	}
+	
 	
 	
 	public enum Category {
