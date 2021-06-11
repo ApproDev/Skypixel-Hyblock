@@ -1,0 +1,28 @@
+name: SkypixelHyblock
+version: 1.0
+author: BadDevelopers
+main: com.BadDevelopers.SkypixelHyblock.Main
+description: Our own spin on Hypixel Skyblock!
+api-version: 1.16
+depend: [WorldEdit]
+load: startup
+
+commands:
+  skygive:
+    description: Gives you a skyblock-registered item!
+    usage: /skygive <playername> <skyblock ID> <quantity>   
+  skycoin:
+    description: Gives you skyblock coins!
+    usage: /skycoin <playername> <action> <quantity>
+  skyskill:
+    description: Gives you skyblock skills!
+    usage: /skyskill <playername> <action> <skill> <quantity>
+  skyenchant:
+    description: Enchants a held item!
+    usage: /skyenchant <playername> <enchantment> <level>
+  skysummon:
+    description: Summons a custom entity!
+    usage: /skysummon <entity type>
+  skyride:
+    description: allows an entity to ride another entity!
+    usage: /skyride <entity uuid> <entity uuid>
