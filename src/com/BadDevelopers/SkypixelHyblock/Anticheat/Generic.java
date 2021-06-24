@@ -26,7 +26,7 @@ public interface Generic {
 	public static DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 	
 	static String prefix = ChatColor.GOLD+"["+
-			ChatColor.RED+"Hyblock-AC"+ChatColor.GOLD+"] "+ChatColor.RESET;
+			ChatColor.RED+"KoE-AC"+ChatColor.GOLD+"] "+ChatColor.RESET;
 	
 	public static int getPing(Player player) {
 		return ((CraftPlayer) player).getHandle().ping;

@@ -17,7 +17,7 @@ public class SummonCommand extends com.BadDevelopers.SkypixelHyblock.Command {
 	
 	public SummonCommand(Main main) {
 		this.main = main;
-		this.name = "skysummon";
+		this.name = "summon";
 		this.completer = new SummonCompleter();
 	}
 	

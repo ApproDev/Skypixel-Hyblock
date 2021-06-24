@@ -40,7 +40,7 @@ public class Main extends JavaPlugin {
 	
 	public static Stats stats;
 	
-	public static String prefix = ChatColor.AQUA+"["+ChatColor.GOLD+"Hyblock"+ChatColor.AQUA+"] ";
+	public static String prefix = ChatColor.AQUA+"["+ChatColor.GOLD+"KoE"+ChatColor.AQUA+"] ";
 	
 	public CustomRaces race;
 	

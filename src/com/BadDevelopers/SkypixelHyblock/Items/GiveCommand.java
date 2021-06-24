@@ -18,7 +18,7 @@ public class GiveCommand extends com.BadDevelopers.SkypixelHyblock.Command {
 	
 	public GiveCommand(Main main) {
 		completer = new GiveCompleter();
-		name = "skygive";
+		name = "give";
 		this.main = main;
 	}
 

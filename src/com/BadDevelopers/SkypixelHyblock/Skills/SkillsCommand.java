@@ -17,7 +17,7 @@ public class SkillsCommand extends Command{
 
 	public SkillsCommand() {
 		completer = new SkillTabCompleter();
-		name = "skyskill";	
+		name = "skill";	
 	}
 	
 	Main main = JavaPlugin.getPlugin(Main.class);

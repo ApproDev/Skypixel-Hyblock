@@ -16,7 +16,7 @@ public class CurrencyCommand extends com.BadDevelopers.SkypixelHyblock.Command{
 	
 	public CurrencyCommand() {
 		completer = new MoneyTabCompleter();
-		name = "skycoin";
+		name = "coin";
 	}
 
 	Main main = JavaPlugin.getPlugin(Main.class);

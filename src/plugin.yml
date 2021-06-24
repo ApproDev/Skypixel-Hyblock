@@ -1,28 +1,28 @@
-name: SkypixelHyblock
+name: KingdomsOfElgardia
 version: 1.0
 author: BadDevelopers
 main: com.BadDevelopers.SkypixelHyblock.Main
-description: Our own spin on Hypixel Skyblock!
+description: Our own RPG-Style Minecraft gamemode.
 api-version: 1.16
 depend: [WorldEdit]
 load: startup
 
 commands:
-  skygive:
-    description: Gives you a skyblock-registered item!
-    usage: /skygive <playername> <skyblock ID> <quantity>   
-  skycoin:
-    description: Gives you skyblock coins!
-    usage: /skycoin <playername> <action> <quantity>
-  skyskill:
-    description: Gives you skyblock skills!
-    usage: /skyskill <playername> <action> <skill> <quantity>
-  skyenchant:
-    description: Enchants a held item!
-    usage: /skyenchant <playername> <enchantment> <level>
-  skysummon:
+  give:
+    description: Gives you a KoE-registered item!
+    usage: /give <playername> <KoE ID> <quantity>   
+  coin:
+    description: Gives you KoE coins!
+    usage: /coin <playername> <action> <quantity>
+  skill:
+    description: Gives you KoE skills!
+    usage: /skill <playername> <action> <skill> <quantity>
+  enchant:
+    description: Enchants a held item! (currently disabled)
+    usage: /enchant <playername> <enchantment> <level>
+  summon:
     description: Summons a custom entity!
-    usage: /skysummon <entity type>
-  skyride:
+    usage: /summon <entity type>
+  ride:
     description: allows an entity to ride another entity!
-    usage: /skyride <entity uuid> <entity uuid>
+    usage: /ride <entity uuid> <entity uuid>

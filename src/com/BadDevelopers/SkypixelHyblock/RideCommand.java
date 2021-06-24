@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 public class RideCommand extends Command {
 
 	public RideCommand() {
-		this.name = "skyride";
+		this.name = "ride";
 	}
 	
 	@Override

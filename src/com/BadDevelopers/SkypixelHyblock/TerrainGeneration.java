@@ -189,9 +189,9 @@ public class TerrainGeneration extends ChunkGenerator implements Listener {
 		        
 		        
 		        
-		        if (caveGen.noise(realX, maxHeight+1, realZ, frequency, amplitude) < 0.499D) chunk.setBlock(x, (int) maxHeight+1, z, grass);
-		        if (caveGen.noise(realX, maxHeight, realZ, frequency, amplitude) < 0.499D)chunk.setBlock(x, (int) maxHeight, z, Material.DIRT);
-		        if (caveGen.noise(realX, maxHeight-1, realZ, frequency, amplitude) < 0.499D)chunk.setBlock(x, (int) maxHeight-1, z, Material.DIRT);
+		        if (caveGen.noise(realX, maxHeight+1, realZ, frequency, amplitude) < 0.4999D) chunk.setBlock(x, (int) maxHeight+1, z, grass);
+		        if (caveGen.noise(realX, maxHeight, realZ, frequency, amplitude) < 0.4999D)chunk.setBlock(x, (int) maxHeight, z, Material.DIRT);
+		        if (caveGen.noise(realX, maxHeight-1, realZ, frequency, amplitude) < 0.4999D)chunk.setBlock(x, (int) maxHeight-1, z, Material.DIRT);
 		        
 		        
 		        chunk.setBlock(x, (int) 0, z, Material.BEDROCK);
